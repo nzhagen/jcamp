@@ -1,4 +1,6 @@
-from numpy import array, linspace, amin, amax, alen, append
+from numpy import array, linspace, amin, amax, alen, append, arange
+import re
+import pdb
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
@@ -23,21 +25,21 @@ def JCAMP_reader(filename):
     xstart = []
     xnum = []
     y = []
+    x = []
+    datastart = False
+    values_pattern = re.compile('\s*\w\s*')
 
     for line in f:
         if not line.strip(): continue
         if line.startswith('$$'): continue
 
-        ## Lines beginning with '#' are header lines.
-        if line.startswith('#'):
-            line = line.strip('#')
-            #if line.endswith('='):
-            #    lhs = line
-            #    rhs = ''
-            #else:
+        ## Lines beginning with '##' are header lines.
+        if line.startswith('##'):
+            line = line.strip('##')
             (lhs,rhs) = line.split('=', 1)
             lhs = lhs.strip().lower()
             rhs = rhs.strip()
+            continuation = rhs.endswith('=')
 
             if rhs.isdigit():
                 jcamp_dict[lhs] = int(rhs)
@@ -45,23 +47,52 @@ def JCAMP_reader(filename):
                 jcamp_dict[lhs] = float(rhs)
             else:
                 jcamp_dict[lhs] = rhs
-        else:
+
+            if (lhs in ('xydata','xypoints','peak table')):
+                datastart = True
+                datatype = rhs
+            elif (lhs == 'end'):
+                datastart = False
+
+        if datastart and (datatype == '(X++(Y..Y))'):
             ## If the line does not start with '##' or '$$' then it should be a data line.
             ## To make sure, check that all split elements are floats.
             datavals = line.split(' ')
-            if all(is_float(datavals)):
-                xstart.append(float(datavals[0]))
-                xnum.append(len(datavals)-1)
-                for dataval in datavals[1:]:
-                    y.append(float(dataval))
+            if not all(is_float(datavals)): continue
+            xstart.append(float(datavals[0]))
+            xnum.append(len(datavals)-1)
+            for dataval in datavals[1:]:
+                y.append(float(dataval))
+        elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
+            datavals = [v.strip() for v in line.split(',')]     ## split at commas and remove whitespace
+            if not all(is_float(datavals)): continue
+            datavals = array(datavals)
+            x.extend(datavals[0::2])        ## every other data point starting at the zeroth
+            y.extend(datavals[1::2])        ## every other data point starting at the first
+        elif datastart and ('peak table' in jcamp_dict) and (datatype == '(XY..XY)'):
+            datavals = [v.strip() for v in line.split(' ') if v]  ## be careful not to allow empty strings
+            #datavals = values_pattern.split(line)
+            #datavals = [v for v]
+            print('datavals=', datavals)
+            if not all(is_float(datavals)): continue
+            datavals = array(datavals)
+            x.extend(datavals[0::2])        ## every other data point starting at the zeroth
+            y.extend(datavals[1::2])        ## every other data point starting at the first
 
-    ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
-    ## First look for the "lastx" dictionary entry. You will need that one to finish the set.
-    xstart.append(jcamp_dict['lastx'])
-    x = array([])
-    y = array(y)
-    for n in range(len(xnum)):
-        x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
+    if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
+        ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
+        ## First look for the "lastx" dictionary entry. You will need that one to finish the set.
+        xstart.append(jcamp_dict['lastx'])
+        x = array([])
+        for n in range(len(xnum)):
+            x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
+        y = array(y)
+    elif ('xypoints' in jcamp_dict) and (jcamp_dict['xypoints'] == '(XY..XY)'):
+        x = array(x)
+        y = array(y)
+    elif ('peak table' in jcamp_dict) and (jcamp_dict['peak table'] == '(XY..XY)'):
+        x = array(x)
+        y = array(y)
 
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
@@ -238,21 +269,30 @@ if __name__ == "__main__":
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel('Cross-section (cm^2 at 1ppm)')
 
-#    filename = './mass_spectra/1-propanol_ms.jdx'
-#    jcamp_dict = JCAMP_reader(filename)
-#    plt.figure()
-#    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
-#    plt.title(filename)
-#    plt.xlabel(jcamp_dict['xunits'])
-#    plt.ylabel(jcamp_dict['yunits'])
-#
-#    filename = './raman_spectra/tannic_acid.jdx'
-#    jcamp_dict = JCAMP_reader(filename)
-#    plt.figure()
-#    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
-#    plt.title(filename)
-#    plt.xlabel(jcamp_dict['xunits'])
-#    plt.ylabel(jcamp_dict['yunits'])
+    filename = './uvvis_spectra/toluene.jdx'
+    plt.figure()
+    jcamp_dict = JCAMP_reader(filename)
+    plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'r-')
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel(jcamp_dict['yunits'])
+
+    filename = './mass_spectra/ethanol_ms.jdx'
+    jcamp_dict = JCAMP_reader(filename)
+    plt.figure()
+    for n in arange(alen(jcamp_dict['x'])):
+        plt.plot((jcamp_dict['x'][n],jcamp_dict['x'][n]), (0.0, jcamp_dict['y'][n]), 'm-', linewidth=2.0)
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel(jcamp_dict['yunits'])
+
+    filename = './raman_spectra/tannic_acid.jdx'
+    jcamp_dict = JCAMP_reader(filename)
+    plt.figure()
+    plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel(jcamp_dict['yunits'])
 
     plt.show()
 
