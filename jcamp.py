@@ -1,4 +1,4 @@
-from numpy import array, linspace, amin, amax, alen
+from numpy import array, linspace, amin, amax, alen, append
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
@@ -36,7 +36,7 @@ def JCAMP_reader(filename):
             #    rhs = ''
             #else:
             (lhs,rhs) = line.split('=', 1)
-            lhs = lhs.strip()
+            lhs = lhs.strip().lower()
             rhs = rhs.strip()
 
             if rhs.isdigit():
@@ -60,7 +60,7 @@ def JCAMP_reader(filename):
     xstart.append(jcamp_dict['lastx'])
     x = array([])
     y = array(y)
-    for n in arange(len(xnum)):
+    for n in range(len(xnum)):
         x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
 
     jcamp_dict['x'] = x
@@ -75,7 +75,8 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     from existing units to absorption cross-section.
 
     This function also corrects for unphysical data (such as negative transmission values, or
-    transmission above 1.0).
+    transmission above 1.0). Instead of a return value, the function inserts the information into
+    the input dictionary.
 
     Parameters
     ----------
@@ -88,18 +89,11 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     skip_nonquant: bool
         If True then return "None" if the spectrum is missing quantitative data. If False, then try \
         to fill in missing quantitative values with defaults.
-
-    Returns
-    -------
-    jcamp_dict : dict
-        The input `jcamp_dict` data with the cross-section data `xsec`, `wavelengths`, and `wavenumbers` \
-        added as new entries.
     '''
 
     x = jcamp_dict['x']
     y = jcamp_dict['y']
 
-    ppm = 1.0E-6        ## for conversion to ppm units
     amagat = 2.687E+25  ## number of molecules per m^3 at std temp and pressure
     T = 288.0           ## standard temperature in Kelvin
     R = 2.78            ## the gas constant in (m^3 * mmHg) / (amg * K)
@@ -108,14 +102,14 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     ## rescaled in order to compensate. But this is only true if we resample the abscissa to a uniform sampling
     ## grid. In this case here, we keep the sampling grid nonuniform in wavelength space, such that each digital
     ## bin retains its proportionality to energy, which is what we want.
-    if (jcamp_dict['xunits'] == '1/cm') or (jcamp_dict['xunits'] == 'cm-1'):
+    if (jcamp_dict['xunits'].lower() == '1/cm') or (jcamp_dict['xunits'].lower() == 'cm-1'):
         jcamp_dict['wavenumbers'] = array(x)            ## note that array() always performs a copy
         x = 10000.0 / x
         jcamp_dict['wavelengths'] = x
-    elif (jcamp_dict['xunits'] == 'micrometers'):
+    elif (jcamp_dict['xunits'].lower() == 'micrometers'):
         jcamp_dict['wavelengths'] = x
         jcamp_dict['wavenumbers'] = 10000.0 / x
-    elif (jcamp_dict['xunits'] == 'nanometers'):
+    elif (jcamp_dict['xunits'].lower() == 'nanometers'):
         x = x * 1000.0
         jcamp_dict['wavelengths'] = x
         jcamp_dict['wavenumbers'] = 10000.0 / x
@@ -123,9 +117,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         raise ValueError('Don\'t know how to convert the spectrum\'s x units ("' + jcamp_dict['xunits'] + '") to micrometers.')
 
     ## Make sure "y" refers to absorbance.
-    if (jcamp_dict['yunits'] == 'transmittance'):
+    if (jcamp_dict['yunits'].lower() == 'transmittance'):
         y = 1.0 - y
-    elif (jcamp_dict['yunits'] == 'absorbance'):
+    elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
@@ -138,7 +132,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     ## Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
-        (val,unit) = jcamp_dict['path length'].split()[0:2]
+        (val,unit) = jcamp_dict['path length'].lower().split()[0:2]
         if (unit == 'cm'):
             ell = float(val) / 100.0
         elif (unit == 'm'):
@@ -165,51 +159,26 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     ## For each gas, manually define the pressure "p" at which the measurement was taken (in units of mmHg).
     ## These values are obtained from the NIST Infrared spectrum database, which for some reason did not
     ## put the partial pressure information into the header.
-    partial_pressures = {'carbon dioxide':200.0,
-                         'carbon monoxide':400.0,
-                         'hydrogen sulfide':600.0,
-                         'methane':150.0,
-                         'ethane':150.0,
-                         'propane':150.0,
-                         'n-pentane':6.0,
-                         'propane, 2-methyl-':200.0,        ## also called "iso-butane"
-                         'iso-butane':200,
-                         'butane, 2-methyl-':100.0,         ## also called "iso-pentane"
-                         'iso-pentane':100.0,
-                         'ammonia':50.0,
-                         'benzene':70.0,
-                         'butadiene':100.0,
-                         'chlorobenzene':10.0,
-                         '1,2-dichloroethane':50.0,
-                         'ethanol':30.0,
-                         'methanol':70.0,
-                         'propylene':150.0,
-                         'propylene oxide':100.0,
-                         'toluene':20.0,
-                         'vinyl chloride':6.0,
-                         'p-xylene':5.0,
-                         'm-xylene':30.0,
-                         'sulfur dioxide':100.0,
-                         'butane':100.0,
-                         'sulfur hexafluoride':600.0,
-                         'ethylene':759.8,
-                         'ozone':759.8*40.0/1.0E6}
-
-    if (jcamp_dict['title'] in partial_pressures):
-        p = partial_pressures[jcamp_dict['title']]
+    if ('partial_pressure' in jcamp_dict):
+        p = int(jcamp_dict['partial_pressure'].split()[0])
+        p_units = jcamp_dict['partial_pressure'].split()[1]
+        if (p_units.lower() == 'mmhg'):
+            pass
+        elif (p_units.lower() == 'ppm'):
+            p = p * 759.8 * 1.0E-6       ## scale PPM units at atmospheric pressure to partial pressure in mmHg
     else:
-        if debug: print('No pressure "p" value entry for ' + jcamp_dict['title'] + '. Using the default p = 150.0 ...')
-        if skip_nonquant: return([None]*4)
+        if debug: print('No pressure "p" value entry for ' + jcamp_dict['title'] + '. Using the default p = 150.0 mmHg ...')
+        if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         p = 150.0
 
     ## Convert the absorbance units to cross-section in meters squared, for a gas at 1ppm at std atmospheric
     ## temperature and pressure.
-    xsec = y * ppm * R * T / (p * ell)
+    xsec = y * R * T * 1.0E-6 / (p * ell)
 
     ## Update the "x" and "y" values and add the "xsec" values.
     jcamp_dict['xsec'] = xsec
 
-    return(jcamp_dict)
+    return
 
 ##=====================================================================================================
 def is_float(s):
@@ -249,3 +218,41 @@ def is_float(s):
             return(True)
         except ValueError:
             return(False)
+
+## =================================================================================================
+## =================================================================================================
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+    filename = './infrared_spectra/methane.jdx'
+    jcamp_dict = JCAMP_reader(filename)
+    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel(jcamp_dict['yunits'])
+
+    JCAMP_calc_xsec(jcamp_dict)
+    plt.figure()
+    plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel('Cross-section (cm^2 at 1ppm)')
+
+#    filename = './mass_spectra/1-propanol_ms.jdx'
+#    jcamp_dict = JCAMP_reader(filename)
+#    plt.figure()
+#    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
+#    plt.title(filename)
+#    plt.xlabel(jcamp_dict['xunits'])
+#    plt.ylabel(jcamp_dict['yunits'])
+#
+#    filename = './raman_spectra/tannic_acid.jdx'
+#    jcamp_dict = JCAMP_reader(filename)
+#    plt.figure()
+#    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
+#    plt.title(filename)
+#    plt.xlabel(jcamp_dict['xunits'])
+#    plt.ylabel(jcamp_dict['yunits'])
+
+    plt.show()
+
