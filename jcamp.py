@@ -1,6 +1,14 @@
-from numpy import array, linspace, amin, amax, alen, append, arange
+from numpy import array, linspace, amin, amax, alen, append, arange, float64
 import re
 import pdb
+
+'''
+jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
+function `JCAMP_reader()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
+converts a given JCAMP-style data dictionary to from absorption units to cross-section (m^2).
+'''
+
+__all__ = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
@@ -73,7 +81,7 @@ def JCAMP_reader(filename):
             datavals = [v.strip() for v in line.split(' ') if v]  ## be careful not to allow empty strings
             #datavals = values_pattern.split(line)
             #datavals = [v for v]
-            print('datavals=', datavals)
+            #print('datavals=', datavals)
             if not all(is_float(datavals)): continue
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
@@ -87,13 +95,14 @@ def JCAMP_reader(filename):
         for n in range(len(xnum)):
             x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
         y = array(y)
-    elif ('xypoints' in jcamp_dict) and (jcamp_dict['xypoints'] == '(XY..XY)'):
-        x = array(x)
-        y = array(y)
-    elif ('peak table' in jcamp_dict) and (jcamp_dict['peak table'] == '(XY..XY)'):
-        x = array(x)
-        y = array(y)
+    else:
+        x = array([float(xval) for xval in x])
+        y = array([float(yval) for yval in y])
 
+    ## The "xfactor" and "yfactor" variables contain any scaling information that may need to be applied
+    ## to the data. Go ahead and apply them.
+    if ('xfactor' in jcamp_dict): x = x * jcamp_dict['xfactor']
+    if ('yfactor' in jcamp_dict): y = y * jcamp_dict['yfactor']
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
 
@@ -114,9 +123,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     jcamp_dict : dict
         A JCAMP spectrum dictionary.
     wavemin : float, optional
-        ?
+        The shortest wavelength in the spectrum to limit the calculation to.
     wavemax : float, optional
-        ?
+        The longest wavelength in the spectrum to limit the calculation to.
     skip_nonquant: bool
         If True then return "None" if the spectrum is missing quantitative data. If False, then try \
         to fill in missing quantitative values with defaults.
@@ -125,7 +134,6 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     x = jcamp_dict['x']
     y = jcamp_dict['y']
 
-    amagat = 2.687E+25  ## number of molecules per m^3 at std temp and pressure
     T = 288.0           ## standard temperature in Kelvin
     R = 2.78            ## the gas constant in (m^3 * mmHg) / (amg * K)
 
@@ -178,8 +186,6 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     assert(alen(x) == alen(y))
 
-    if ('xfactor' in jcamp_dict): x = x * jcamp_dict['xfactor']
-    if ('yfactor' in jcamp_dict): y = y * jcamp_dict['yfactor']
     if ('npoints' in jcamp_dict):
         if (alen(x) != jcamp_dict['npoints']):
             npts_retrieved = str(alen(x))
@@ -206,7 +212,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     ## temperature and pressure.
     xsec = y * R * T * 1.0E-6 / (p * ell)
 
-    ## Update the "x" and "y" values and add the "xsec" values.
+    ## Add the "xsec" values to the data dictionary.
     jcamp_dict['xsec'] = xsec
 
     return
