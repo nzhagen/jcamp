@@ -1,5 +1,6 @@
 from numpy import array, linspace, amin, amax, alen, append, arange, float64
 import re
+import string
 import pdb
 
 '''
@@ -36,6 +37,7 @@ def JCAMP_reader(filename):
     x = []
     datastart = False
     values_pattern = re.compile('\s*\w\s*')
+    jcamp_numbers_pattern = re.compile(r'([+-]?\d+\.\d*)|([+-]?\d+)')
 
     for line in f:
         if not line.strip(): continue
@@ -59,13 +61,18 @@ def JCAMP_reader(filename):
             if (lhs in ('xydata','xypoints','peak table')):
                 datastart = True
                 datatype = rhs
+                continue        ## data starts on next line
             elif (lhs == 'end'):
                 datastart = False
 
         if datastart and (datatype == '(X++(Y..Y))'):
             ## If the line does not start with '##' or '$$' then it should be a data line.
-            ## To make sure, check that all split elements are floats.
-            datavals = line.split(' ')
+            ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
+            ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
+            new = re.split(jcamp_numbers_pattern, line.strip())
+            new = [n for n in new if n != '' and n != None]
+            datavals = [n for n in new if n.strip() != '']
+
             if not all(is_float(datavals)): continue
             xstart.append(float(datavals[0]))
             xnum.append(len(datavals)-1)
@@ -155,19 +162,23 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s x units ("' + jcamp_dict['xunits'] + '") to micrometers.')
 
+    ## Correct for any unphysical negative values.
+    y[y < 0.0] = 0.0
+
     ## Make sure "y" refers to absorbance.
     if (jcamp_dict['yunits'].lower() == 'transmittance'):
         y = 1.0 - y
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
+    elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
+        jcamp_dict['yunits'] = 'xsec (m^2 at 1ppm))'
+        jcamp_dict['xsec'] = y
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
 
-    ## Correct for any unphysical data.
-    if any(y < 0.0):
-        y[y < 0.0] = 0.0
-    if any(y > 1.0):
-        y[y > 1.0] = 1.0
+    ## If in absorbance units, then any y > 1.0 are unphysical. This check occurs after tge units check because we don't
+    ## want to restrict the upper range if we're measuring cross-section units.
+    y[y > 1.0] = 1.0
 
     ## Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
@@ -197,7 +208,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     ## These values are obtained from the NIST Infrared spectrum database, which for some reason did not
     ## put the partial pressure information into the header.
     if ('partial_pressure' in jcamp_dict):
-        p = int(jcamp_dict['partial_pressure'].split()[0])
+        p = float(jcamp_dict['partial_pressure'].split()[0])
         p_units = jcamp_dict['partial_pressure'].split()[1]
         if (p_units.lower() == 'mmhg'):
             pass
@@ -273,7 +284,7 @@ if __name__ == "__main__":
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
     plt.title(filename)
     plt.xlabel(jcamp_dict['xunits'])
-    plt.ylabel('Cross-section (cm^2 at 1ppm)')
+    plt.ylabel('Cross-section (m^2 at 1ppm)')
 
     filename = './uvvis_spectra/toluene.jdx'
     plt.figure()
