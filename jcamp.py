@@ -171,7 +171,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
     elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
-        jcamp_dict['yunits'] = 'xsec (m^2 at 1ppm))'
+        jcamp_dict['yunits'] = 'xsec (m^2 at 1ppm.m))'
         jcamp_dict['xsec'] = y
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
