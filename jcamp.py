@@ -283,7 +283,7 @@ if __name__ == "__main__":
     plt.figure()
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
     plt.title(filename)
-    plt.xlabel(jcamp_dict['xunits'])
+    plt.xlabel('um')
     plt.ylabel('Cross-section (m^2 at 1ppm)')
 
     filename = './uvvis_spectra/toluene.jdx'
