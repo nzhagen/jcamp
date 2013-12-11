@@ -1,0 +1,7 @@
+include jcamp.py
+include README.md
+include LICENSE.txt
+graft infrared_spectra
+graft mass_spectra
+graft raman_spectra
+graft uvvis_spectra
