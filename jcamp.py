@@ -1,4 +1,4 @@
-from numpy import array, linspace, amin, amax, alen, append, arange, float64
+from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and
 import re
 import string
 import pdb
@@ -70,7 +70,7 @@ def JCAMP_reader(filename):
             ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
             ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
             new = re.split(jcamp_numbers_pattern, line.strip())
-            new = [n for n in new if n != '' and n != None]
+            new = [n for n in new if n != '' and n is not None]
             datavals = [n for n in new if n.strip() != '']
 
             if not all(is_float(datavals)): continue
@@ -141,8 +141,8 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     x = jcamp_dict['x']
     y = jcamp_dict['y']
 
-    T = 288.0           ## standard temperature in Kelvin
-    R = 2.78            ## the gas constant in (m^3 * mmHg) / (amg * K)
+    T = 296.0            ## the temperature (23 degC) used by NIST when collecting spectra
+    R = 1.0355E-25       ## the constant for converting data (includes the gas constant)
 
     ## Note: normally when we convert from wavenumber to wavelength units, the ordinate must be nonuniformly
     ## rescaled in order to compensate. But this is only true if we resample the abscissa to a uniform sampling
@@ -176,7 +176,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
 
-    ## If in absorbance units, then any y > 1.0 are unphysical. This check occurs after tge units check because we don't
+    ## If in absorbance units, then any y > 1.0 are unphysical. This check occurs after the units check because we don't
     ## want to restrict the upper range if we're measuring cross-section units.
     y[y > 1.0] = 1.0
 
@@ -194,6 +194,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     else:
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         ell = 0.1
+        if debug: print('Path length variable not found. Using 0.1m as a default ...')
 
     assert(alen(x) == alen(y))
 
@@ -218,10 +219,19 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         if debug: print('No pressure "p" value entry for ' + jcamp_dict['title'] + '. Using the default p = 150.0 mmHg ...')
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         p = 150.0
+        if debug: print('Partial pressure variable not found. Using 150mmHg as a default ...')
 
     ## Convert the absorbance units to cross-section in meters squared, for a gas at 1ppm at std atmospheric
     ## temperature and pressure.
-    xsec = y * R * T * 1.0E-6 / (p * ell)
+    xsec = y * T * R / (p * ell)
+
+    ## With a third-party-spectrometer, I've found convincing evidence that the NIST spectra for propane and butane have
+    ## an artificial DC baseline (and one that the PNNL data also do not have). So let's just subtract it here.
+    if (jcamp_dict['title'].lower() in ('propane','n_butane','butane')):
+        okay = logical_and(jcamp_dict['wavelengths'] >= 8.0, jcamp_dict['wavelengths'] <= 12.0)
+        minvalue = amin(xsec[okay])
+        #print('Subtracting a baseline of %g from %s' % (minvalue, jcamp_dict['title']))
+        xsec = xsec - minvalue
 
     ## Add the "xsec" values to the data dictionary.
     jcamp_dict['xsec'] = xsec
@@ -279,7 +289,7 @@ if __name__ == "__main__":
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
-    JCAMP_calc_xsec(jcamp_dict)
+    JCAMP_calc_xsec(jcamp_dict, skip_nonquant=False, debug=True)
     plt.figure()
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
     plt.title(filename)
