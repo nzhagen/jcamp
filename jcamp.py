@@ -2,6 +2,7 @@ from numpy import array, linspace, amin, amax, alen, append, arange, float64, lo
 import re
 import string
 import pdb
+from math import log10
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -167,7 +168,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     ## Make sure "y" refers to absorbance.
     if (jcamp_dict['yunits'].lower() == 'transmittance'):
-        y = 1.0 - y
+        y = log10(1.0 / y)
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
     elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
