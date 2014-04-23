@@ -2,6 +2,7 @@ from numpy import array, linspace, amin, amax, alen, append, arange, float64, lo
 import re
 import string
 import pdb
+from math import log10
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -121,9 +122,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     Taking as input a JDX file, extract the spectrum information and transform the absorption spectrum
     from existing units to absorption cross-section.
 
-    This function also corrects for unphysical data (such as negative transmission values, or
-    transmission above 1.0). Instead of a return value, the function inserts the information into
-    the input dictionary.
+    This function also corrects for unphysical data (such as negative transmittance values, or
+    transmission above 1.0), and calculates absorbance if transmittance given. Instead of a return 
+    value, the function inserts the information into the input dictionary.
 
     Parameters
     ----------
@@ -167,7 +168,13 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     ## Make sure "y" refers to absorbance.
     if (jcamp_dict['yunits'].lower() == 'transmittance'):
-        y = 1.0 - y
+        ## If in transmittance, then any y > 1.0 are unphysical.
+        y[y > 1.0] = 1.0
+        
+        ## convert to absorbance
+        y = array([log10(1.0 / yval) for yval in y])
+        
+        jcamp_dict['absorbance'] = array(y)
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
     elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
@@ -175,11 +182,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         jcamp_dict['xsec'] = y
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
-
-    ## If in absorbance units, then any y > 1.0 are unphysical. This check occurs after the units check because we don't
-    ## want to restrict the upper range if we're measuring cross-section units.
-    y[y > 1.0] = 1.0
-
+    
     ## Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
         (val,unit) = jcamp_dict['path length'].lower().split()[0:2]
