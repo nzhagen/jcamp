@@ -172,7 +172,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         y[y > 1.0] = 1.0
         
         ## convert to absorbance
-        y = log10(1.0 / y)
+        y = array([log10(1.0 / yval) for yval in y])
         
         jcamp_dict['absorbance'] = array(y)
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
