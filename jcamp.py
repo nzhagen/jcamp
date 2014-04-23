@@ -1,4 +1,4 @@
-from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and
+from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, log10
 import re
 import string
 import pdb
@@ -6,7 +6,7 @@ import pdb
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
 function `JCAMP_reader()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
-converts a given JCAMP-style data dictionary to from absorption units to cross-section (m^2).
+converts a given JCAMP-style data dictionary from absorption units to cross-section (m^2).
 '''
 
 __all__ = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
@@ -121,9 +121,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     Taking as input a JDX file, extract the spectrum information and transform the absorption spectrum
     from existing units to absorption cross-section.
 
-    This function also corrects for unphysical data (such as negative transmission values, or
-    transmission above 1.0). Instead of a return value, the function inserts the information into
-    the input dictionary.
+    This function also corrects for unphysical data (such as negative transmittance values, or
+    transmission above 1.0), and calculates absorbance if transmittance given. Instead of a return
+    value, the function inserts the information into the input dictionary.
 
     Parameters
     ----------
@@ -167,18 +167,20 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     ## Make sure "y" refers to absorbance.
     if (jcamp_dict['yunits'].lower() == 'transmittance'):
-        y = 1.0 - y
+        ## If in transmittance, then any y > 1.0 are unphysical.
+        y[y > 1.0] = 1.0
+
+        ## convert to absorbance
+        y = log10(1.0 / y)
+
+        jcamp_dict['absorbance'] = array(y)
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
     elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
-        jcamp_dict['yunits'] = 'xsec (m^2 at 1ppm.m))'
+        jcamp_dict['yunits'] = 'xsec (m^2))'
         jcamp_dict['xsec'] = y
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
-
-    ## If in absorbance units, then any y > 1.0 are unphysical. This check occurs after the units check because we don't
-    ## want to restrict the upper range if we're measuring cross-section units.
-    y[y > 1.0] = 1.0
 
     ## Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
@@ -191,11 +193,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
             ell = float(val) / 1000.0
         else:
             ell = 0.1
-            jcamp_dict['quantization_guess'] = True
     else:
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         ell = 0.1
-        jcamp_dict['quantization_guess'] = True
         if debug: print('Path length variable not found. Using 0.1m as a default ...')
 
     assert(alen(x) == alen(y))
@@ -221,11 +221,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         if debug: print('No pressure "p" value entry for ' + jcamp_dict['title'] + '. Using the default p = 150.0 mmHg ...')
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         p = 150.0
-        jcamp_dict['quantization_guess'] = True
         if debug: print('Partial pressure variable not found. Using 150mmHg as a default ...')
 
-    ## Convert the absorbance units to cross-section in meters squared, for a gas at 1ppm at std atmospheric
-    ## temperature and pressure.
+    ## Convert the absorbance units to cross-section in meters squared per molecule.
     xsec = y * T * R / (p * ell)
 
     ## With a third-party-spectrometer, I've found convincing evidence that the NIST spectra for propane and butane have
@@ -297,7 +295,7 @@ if __name__ == "__main__":
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
     plt.title(filename)
     plt.xlabel('um')
-    plt.ylabel('Cross-section (m^2 at 1ppm)')
+    plt.ylabel('Cross-section (m^2)')
 
     filename = './uvvis_spectra/toluene.jdx'
     plt.figure()
