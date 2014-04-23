@@ -2,6 +2,7 @@ from numpy import array, linspace, amin, amax, alen, append, arange, float64, lo
 import re
 import string
 import pdb
+from math import log10
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -173,7 +174,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         ## convert to absorbance
         y = log10(1.0 / y)
 
-        jcamp_dict['absorbance'] = array(y)
+        jcamp_dict['absorbance'] = y
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
         pass
     elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
@@ -181,6 +182,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         jcamp_dict['xsec'] = y
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
+
 
     ## Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
