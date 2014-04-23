@@ -191,9 +191,11 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
             ell = float(val) / 1000.0
         else:
             ell = 0.1
+            jcamp_dict['quantization_guess'] = True
     else:
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         ell = 0.1
+        jcamp_dict['quantization_guess'] = True
         if debug: print('Path length variable not found. Using 0.1m as a default ...')
 
     assert(alen(x) == alen(y))
@@ -219,6 +221,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         if debug: print('No pressure "p" value entry for ' + jcamp_dict['title'] + '. Using the default p = 150.0 mmHg ...')
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         p = 150.0
+        jcamp_dict['quantization_guess'] = True
         if debug: print('Partial pressure variable not found. Using 150mmHg as a default ...')
 
     ## Convert the absorbance units to cross-section in meters squared, for a gas at 1ppm at std atmospheric
