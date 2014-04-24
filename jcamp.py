@@ -1,13 +1,15 @@
-from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, log10
+from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, logical_not, log10, nan
 import re
 import string
 import pdb
-from math import log10
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
 function `JCAMP_reader()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
 converts a given JCAMP-style data dictionary from absorption units to cross-section (m^2).
+
+The bottom of the file contains an example script, so that if the module is run by itself, it will show several
+spectra plotted from data in repository folders.
 '''
 
 __all__ = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
@@ -31,7 +33,7 @@ def JCAMP_reader(filename):
     '''
 
     f = open(filename, 'r')
-    jcamp_dict = {}
+    jcamp_dict = {'filename':filename}
     xstart = []
     xnum = []
     y = []
@@ -172,7 +174,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         y[y > 1.0] = 1.0
 
         ## convert to absorbance
-        y = log10(1.0 / y)
+        okay = (y > 0.0)
+        y[okay] = log10(1.0 / y[okay])
+        y[logical_not(okay)] = nan
 
         jcamp_dict['absorbance'] = y
     elif (jcamp_dict['yunits'].lower() == 'absorbance'):
@@ -230,7 +234,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     ## With a third-party-spectrometer, I've found convincing evidence that the NIST spectra for propane and butane have
     ## an artificial DC baseline (and one that the PNNL data also do not have). So let's just subtract it here.
-    if (jcamp_dict['title'].lower() in ('propane','n_butane','butane')):
+    is_nist_infrared = ('jcamp/infrared_spectra/' in jcamp_dict['filename'])
+    is_offset_spectrum = (jcamp_dict['title'].lower() in ('propane','n_butane','butane'))
+    if is_offset_spectrum and is_nist_infrared:
         okay = logical_and(jcamp_dict['wavelengths'] >= 8.0, jcamp_dict['wavelengths'] <= 12.0)
         minvalue = amin(xsec[okay])
         #print('Subtracting a baseline of %g from %s' % (minvalue, jcamp_dict['title']))
@@ -283,7 +289,7 @@ def is_float(s):
 ## =================================================================================================
 ## =================================================================================================
 
-if __name__ == "__main__":
+if (__name__ == '__main__'):
     import matplotlib.pyplot as plt
     filename = './infrared_spectra/methane.jdx'
     jcamp_dict = JCAMP_reader(filename)
