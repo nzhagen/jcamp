@@ -128,6 +128,9 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     transmission above 1.0), and calculates absorbance if transmittance given. Instead of a return
     value, the function inserts the information into the input dictionary.
 
+    Note that the conversion assumes that the measurements were collected for gas at a temperature of
+    296K (23 degC).
+
     Parameters
     ----------
     jcamp_dict : dict
@@ -173,7 +176,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         ## If in transmittance, then any y > 1.0 are unphysical.
         y[y > 1.0] = 1.0
 
-        ## convert to absorbance
+        ## Convert to absorbance.
         okay = (y > 0.0)
         y[okay] = log10(1.0 / y[okay])
         y[logical_not(okay)] = nan
