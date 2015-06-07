@@ -1,8 +1,7 @@
-from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, log10
 import re
-import string
-import pdb
-from math import log10
+
+from numpy import (alen, amin, append, arange, array, linspace, log10,
+                   logical_and)
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -325,4 +324,3 @@ if __name__ == "__main__":
     plt.ylabel(jcamp_dict['yunits'])
 
     plt.show()
-
