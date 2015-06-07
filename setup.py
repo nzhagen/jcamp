@@ -1,5 +1,5 @@
 # chardet's setup.py
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name = "jcamp",
@@ -10,6 +10,7 @@ setup(
     author_email = "nhagen@optics.arizona.edu",
     url = "https://github.com/nzhagen/jcamp",
     download_url = "https://github.com/nzhagen/jcamp",
+    install_requires=['numpy', 'matplotlib'],
     keywords = ["jcamp", "jcamp-dx", "spectra"],
     classifiers = [
         "Programming Language :: Python :: 2.7",
