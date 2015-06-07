@@ -12,9 +12,11 @@ setup(
     download_url="https://github.com/nzhagen/jcamp",
     install_requires=['numpy'],
     test_suite='tests',
+    tests_require=['tox', 'coverage'],
     keywords=["jcamp", "jcamp-dx", "spectra"],
     classifiers=[
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.4",
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
