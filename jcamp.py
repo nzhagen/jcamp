@@ -28,71 +28,70 @@ def JCAMP_reader(filename):
     jcamp_dict : dict
         The dictionary containing the header and data vectors.
     '''
-
-    f = open(filename, 'r')
     jcamp_dict = {}
     xstart = []
     xnum = []
     y = []
     x = []
     datastart = False
-    values_pattern = re.compile('\s*\w\s*')
     jcamp_numbers_pattern = re.compile(r'([+-]?\d+\.\d*)|([+-]?\d+)')
 
-    for line in f:
-        if not line.strip(): continue
-        if line.startswith('$$'): continue
+    with open(filename, 'r') as f:
+        for line in f.readlines():
+            if not line.strip():
+                continue
+            if line.startswith('$$'):
+                continue
 
-        ## Lines beginning with '##' are header lines.
-        if line.startswith('##'):
-            line = line.strip('##')
-            (lhs,rhs) = line.split('=', 1)
-            lhs = lhs.strip().lower()
-            rhs = rhs.strip()
-            continuation = rhs.endswith('=')
+            ## Lines beginning with '##' are header lines.
+            if line.startswith('##'):
+                line = line.strip('##')
+                (lhs,rhs) = line.split('=', 1)
+                lhs = lhs.strip().lower()
+                rhs = rhs.strip()
 
-            if rhs.isdigit():
-                jcamp_dict[lhs] = int(rhs)
-            elif is_float(rhs):
-                jcamp_dict[lhs] = float(rhs)
-            else:
-                jcamp_dict[lhs] = rhs
+                if rhs.isdigit():
+                    jcamp_dict[lhs] = int(rhs)
+                elif is_float(rhs):
+                    jcamp_dict[lhs] = float(rhs)
+                else:
+                    jcamp_dict[lhs] = rhs
 
-            if (lhs in ('xydata','xypoints','peak table')):
-                datastart = True
-                datatype = rhs
-                continue        ## data starts on next line
-            elif (lhs == 'end'):
-                datastart = False
+                if (lhs in ('xydata','xypoints','peak table')):
+                    datastart = True
+                    datatype = rhs
+                    continue        ## data starts on next line
+                elif (lhs == 'end'):
+                    datastart = False
 
-        if datastart and (datatype == '(X++(Y..Y))'):
-            ## If the line does not start with '##' or '$$' then it should be a data line.
-            ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
-            ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
-            new = re.split(jcamp_numbers_pattern, line.strip())
-            new = [n for n in new if n != '' and n is not None]
-            datavals = [n for n in new if n.strip() != '']
+            if datastart and (datatype == '(X++(Y..Y))'):
+                ## If the line does not start with '##' or '$$' then it should be a data line.
+                ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
+                ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
+                new = re.split(jcamp_numbers_pattern, line.strip())
+                new = [n for n in new if n != '' and n is not None]
+                datavals = [n for n in new if n.strip() != '']
 
-            if not all(is_float(datavals)): continue
-            xstart.append(float(datavals[0]))
-            xnum.append(len(datavals) - 1)
-            for dataval in datavals[1:]:
-                y.append(float(dataval))
-        elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
-            datavals = [v.strip() for v in line.split(',')]     ## split at commas and remove whitespace
-            if not all(is_float(datavals)): continue
-            datavals = array(datavals)
-            x.extend(datavals[0::2])        ## every other data point starting at the zeroth
-            y.extend(datavals[1::2])        ## every other data point starting at the first
-        elif datastart and ('peak table' in jcamp_dict) and (datatype == '(XY..XY)'):
-            datavals = [v.strip() for v in line.split(' ') if v]  ## be careful not to allow empty strings
-            #datavals = values_pattern.split(line)
-            #datavals = [v for v]
-            #print('datavals=', datavals)
-            if not all(is_float(datavals)): continue
-            datavals = array(datavals)
-            x.extend(datavals[0::2])        ## every other data point starting at the zeroth
-            y.extend(datavals[1::2])        ## every other data point starting at the first
+                if not all(is_float(datavals)): continue
+                xstart.append(float(datavals[0]))
+                xnum.append(len(datavals) - 1)
+                for dataval in datavals[1:]:
+                    y.append(float(dataval))
+            elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
+                datavals = [v.strip() for v in line.split(',')]     ## split at commas and remove whitespace
+                if not all(is_float(datavals)): continue
+                datavals = array(datavals)
+                x.extend(datavals[0::2])        ## every other data point starting at the zeroth
+                y.extend(datavals[1::2])        ## every other data point starting at the first
+            elif datastart and ('peak table' in jcamp_dict) and (datatype == '(XY..XY)'):
+                datavals = [v.strip() for v in line.split(' ') if v]  ## be careful not to allow empty strings
+                #datavals = values_pattern.split(line)
+                #datavals = [v for v]
+                #print('datavals=', datavals)
+                if not all(is_float(datavals)): continue
+                datavals = array(datavals)
+                x.extend(datavals[0::2])        ## every other data point starting at the zeroth
+                y.extend(datavals[1::2])        ## every other data point starting at the first
 
     if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
         ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
@@ -262,8 +261,8 @@ def is_float(s):
             except ValueError:
                 return(False)
         else:
-            bool = list(True for i in xrange(0,len(s)))
-            for i in xrange(0,len(s)):
+            bool = list(True for i in range(0,len(s)))
+            for i in range(0,len(s)):
                 try:
                     temp = float(s[i])
                 except ValueError:
