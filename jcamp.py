@@ -4,14 +4,14 @@ from numpy import (alen, amin, append, arange, array, linspace, log10,
                    logical_and)
 
 '''
-jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
-function `JCAMP_reader()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
-converts a given JCAMP-style data dictionary from absorption units to cross-section (m^2).
+jcamp.py contains functions useful for parsing JCAMP-DX formatted files
+containing spectral data. The main function `JCAMP_reader()` formats the input
+file into a Python dictionary, while `JCAMP_calc_xsec()` converts a given
+JCAMP-style data dictionary from absorption units to cross-section (m^2).
 '''
 
 __all__ = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
 
-##=====================================================================================================
 def JCAMP_reader(filename):
     '''
     Read a JDX-format file, and return a dictionary containing the header info, a 1D numpy vectors `x` for
@@ -75,7 +75,7 @@ def JCAMP_reader(filename):
 
             if not all(is_float(datavals)): continue
             xstart.append(float(datavals[0]))
-            xnum.append(len(datavals)-1)
+            xnum.append(len(datavals) - 1)
             for dataval in datavals[1:]:
                 y.append(float(dataval))
         elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
@@ -100,7 +100,7 @@ def JCAMP_reader(filename):
         xstart.append(jcamp_dict['lastx'])
         x = array([])
         for n in range(len(xnum)):
-            x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
+            x = append(x, linspace(xstart[n],xstart[n + 1],xnum[n]))
         y = array(y)
     else:
         x = array([float(xval) for xval in x])
@@ -182,8 +182,7 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
 
-
-    ## Determine the effective path length "ell" of the measurement chamber, in meters.
+    # Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
         (val,unit) = jcamp_dict['path length'].lower().split()[0:2]
         if (unit == 'cm'):
@@ -240,7 +239,6 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
 
     return
 
-##=====================================================================================================
 def is_float(s):
     '''
     Test if a string, or list of strings, contains a numeric value(s).

@@ -10,7 +10,7 @@ setup(
     author_email="nhagen@optics.arizona.edu",
     url="https://github.com/nzhagen/jcamp",
     download_url="https://github.com/nzhagen/jcamp",
-    install_requires=['numpy', 'matplotlib'],
+    install_requires=['numpy'],
     test_suite='tests',
     keywords=["jcamp", "jcamp-dx", "spectra"],
     classifiers=[
