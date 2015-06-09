@@ -254,24 +254,22 @@ def is_float(s):
     '''
 
     if isinstance(s,tuple) or isinstance(s,list):
-        if not all(isinstance(i,str) for i in s): raise TypeError("Input 's' is not a list of strings")
+        if not all(isinstance(i,str) for i in s):
+            raise TypeError("Input {} is not a list of strings".format(s))
         if len(s) == 0:
-            try:
-                temp = float(i)
-            except ValueError:
-                return(False)
+            raise ValueError('Input {} is empty'.format(s))
         else:
             bool = list(True for i in range(0,len(s)))
             for i in range(0,len(s)):
                 try:
-                    temp = float(s[i])
+                    float(s[i])
                 except ValueError:
                     bool[i] = False
         return(bool)
     else:
         if not isinstance(s,str): raise TypeError("Input 's' is not a string")
         try:
-            temp = float(s)
+            float(s)
             return(True)
         except ValueError:
             return(False)
