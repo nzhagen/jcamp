@@ -1,9 +1,9 @@
 import unittest
-from jcamp import JCAMP_reader
+from jcamp import JCAMP_reader, JCAMP_calc_xsec
 import numpy
 
 
-class TestJcampReader(unittest.TestCase):
+class TestJcamp(unittest.TestCase):
     def setUp(self):
         filename = './infrared_spectra/methane.jdx'
         self.jcamp_dict = JCAMP_reader(filename)
@@ -59,6 +59,11 @@ class TestJcampReader(unittest.TestCase):
         self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
         self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
         self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'], places=4)
+
+    def test_jcamp_calc_xsec(self):
+        jcamp_dict = self.jcamp_dict
+        JCAMP_calc_xsec(jcamp_dict)
+        self.assertTrue('xsec' in jcamp_dict)
 
 
 if __name__ == '__main__':
