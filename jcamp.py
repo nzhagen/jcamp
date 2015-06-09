@@ -1,7 +1,6 @@
 import re
 
-from numpy import (alen, amin, append, arange, array, linspace, log10,
-                   logical_and)
+from numpy import alen, amin, append, array, linspace, log10, logical_and
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files
@@ -273,49 +272,3 @@ def is_float(s):
             return(True)
         except ValueError:
             return(False)
-
-## =================================================================================================
-## =================================================================================================
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-    filename = './infrared_spectra/methane.jdx'
-    jcamp_dict = JCAMP_reader(filename)
-    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
-    plt.title(filename)
-    plt.xlabel(jcamp_dict['xunits'])
-    plt.ylabel(jcamp_dict['yunits'])
-
-    JCAMP_calc_xsec(jcamp_dict, skip_nonquant=False, debug=True)
-    plt.figure()
-    plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
-    plt.title(filename)
-    plt.xlabel('um')
-    plt.ylabel('Cross-section (m^2)')
-
-    filename = './uvvis_spectra/toluene.jdx'
-    plt.figure()
-    jcamp_dict = JCAMP_reader(filename)
-    plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'r-')
-    plt.title(filename)
-    plt.xlabel(jcamp_dict['xunits'])
-    plt.ylabel(jcamp_dict['yunits'])
-
-    filename = './mass_spectra/ethanol_ms.jdx'
-    jcamp_dict = JCAMP_reader(filename)
-    plt.figure()
-    for n in arange(alen(jcamp_dict['x'])):
-        plt.plot((jcamp_dict['x'][n],jcamp_dict['x'][n]), (0.0, jcamp_dict['y'][n]), 'm-', linewidth=2.0)
-    plt.title(filename)
-    plt.xlabel(jcamp_dict['xunits'])
-    plt.ylabel(jcamp_dict['yunits'])
-
-    filename = './raman_spectra/tannic_acid.jdx'
-    jcamp_dict = JCAMP_reader(filename)
-    plt.figure()
-    plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
-    plt.title(filename)
-    plt.xlabel(jcamp_dict['xunits'])
-    plt.ylabel(jcamp_dict['yunits'])
-
-    plt.show()

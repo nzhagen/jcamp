@@ -1,4 +1,3 @@
-=====
 jcamp
 =====
 
@@ -19,9 +18,9 @@ and modifying the fields::
 
 The optional arguments ``wavemin``, ``wavemax`` are used if the user wishes to truncate the data to only a desired spectral range. For example, setting ``wavemin=8.0`` and ``wavemax=12.0`` means that the returned data arrays will only contain data corresponding to those wavlengths. If the ``skip_nonquant`` optional input argument is used, then any input spectrum that does not have the complete ``path_length`` and ``partial_pressure`` fields in its dictionary will be passed without modification. (That is, no conversion to quantitative cross-section will be attempted.) If this option is set to True, then if the code finds missing data, it will attempt to generate a quantitative cross-section by guessing the missing values. Based upon NIST's infrared database, typical values for guessing here are ``partial_pressure = 150.0 mmHg`` and ``path length = 0.1 m``.
 
-Running ``jcamp.py`` by itself will produce a series of plots showing spectra.
+You can view a notebook demo in the doc folder to see how you can produce a series of plots showing spectra.
 
 jcamp files
-===========
+-----------
 
 The repository comes with four folders containing JCAMP-format files: ``infrared_spectra/``, ``mass_spectra/``, ``raman_spectra/``, and ``uvvis_spectra``. These were downloaded from freely-available internet databases, and can be used as example format files.

@@ -1,11 +1,12 @@
 import unittest
-from jcamp import JCAMP_reader, JCAMP_calc_xsec
+
 import numpy
+from jcamp import JCAMP_calc_xsec, JCAMP_reader
 
 
 class TestJcamp(unittest.TestCase):
     def setUp(self):
-        filename = './infrared_spectra/methane.jdx'
+        filename = './data/infrared_spectra/methane.jdx'
         self.jcamp_dict = JCAMP_reader(filename)
 
     def test_jcamp_reader_dict(self):
