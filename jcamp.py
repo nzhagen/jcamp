@@ -186,10 +186,10 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         pass
     elif (jcamp_dict['yunits'].lower() == '(micromol/mol)-1m-1 (base 10)'):
         jcamp_dict['yunits'] = 'xsec (m^2))'
-        jcamp_dict['xsec'] = y
+        jcamp_dict['xsec'] = y / 2.687e19
+        return
     else:
         raise ValueError('Don\'t know how to convert the spectrum\'s y units ("' + jcamp_dict['yunits'] + '") to absorbance.')
-
 
     ## Determine the effective path length "ell" of the measurement chamber, in meters.
     if ('path length' in jcamp_dict):
@@ -227,26 +227,23 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         elif (p_units.lower() == 'ppm'):
             p = p * 759.8 * 1.0E-6       ## scale PPM units at atmospheric pressure to partial pressure in mmHg
     else:
-        if debug: print('No pressure "p" value entry for ' + jcamp_dict['title'] + '. Using the default p = 150.0 mmHg ...')
+        if debug: print('Partial pressure variable value for ' + jcamp_dict['title'] + ' is missing. Using the default p = 150.0 mmHg ...')
         if skip_nonquant: return({'info':None, 'x':None, 'xsec':None, 'y':None})
         p = 150.0
-        if debug: print('Partial pressure variable not found. Using 150mmHg as a default ...')
 
     ## Convert the absorbance units to cross-section in meters squared per molecule.
     xsec = y * T * R / (p * ell)
 
-    ## With a third-party-spectrometer, I've found convincing evidence that the NIST spectra for propane and butane have
-    ## an artificial DC baseline (and one that the PNNL data also do not have). So let's just subtract it here.
-    is_nist_infrared = ('jcamp/infrared_spectra/' in jcamp_dict['filename'])
-    is_offset_spectrum = (jcamp_dict['title'].lower() in ('propane','n_butane','butane'))
-    if is_offset_spectrum and is_nist_infrared:
-        okay = logical_and(jcamp_dict['wavelengths'] >= 8.0, jcamp_dict['wavelengths'] <= 12.0)
-        minvalue = amin(xsec[okay])
-        #print('Subtracting a baseline of %g from %s' % (minvalue, jcamp_dict['title']))
-        xsec = xsec - minvalue
-
     ## Add the "xsec" values to the data dictionary.
     jcamp_dict['xsec'] = xsec
+
+    if (jcamp_dict['title'].lower() == 'ethylene'):
+        import matplotlib.pyplot as plt
+        okay = logical_and((jcamp_dict['wavelengths'] > 7.5), (jcamp_dict['wavelengths'] < 14.0))
+        plt.figure()
+        plt.plot(jcamp_dict['wavelengths'][okay], jcamp_dict['xsec'][okay])
+        plt.title(jcamp_dict['title'])
+        plt.show()
 
     return
 
@@ -294,19 +291,19 @@ def is_float(s):
 
 if (__name__ == '__main__'):
     import matplotlib.pyplot as plt
-    filename = './infrared_spectra/methane.jdx'
+    filename = './infrared_spectra/ethylene.jdx'
     jcamp_dict = JCAMP_reader(filename)
     plt.plot(jcamp_dict['x'], jcamp_dict['y'])
     plt.title(filename)
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
-    JCAMP_calc_xsec(jcamp_dict, skip_nonquant=False, debug=True)
+    JCAMP_calc_xsec(jcamp_dict, skip_nonquant=False, debug=False)
     plt.figure()
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
     plt.title(filename)
-    plt.xlabel('um')
-    plt.ylabel('Cross-section (m^2)')
+    plt.xlabel('wavelength (um)')
+    plt.ylabel('absorption cross-section (m^2)')
 
     filename = './uvvis_spectra/toluene.jdx'
     plt.figure()
