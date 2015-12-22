@@ -1,7 +1,6 @@
 from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, logical_not, log10, nan
 import re
-import string
-import pdb
+#import pdb
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -12,7 +11,10 @@ The bottom of the file contains an example script, so that if the module is run 
 spectra plotted from data in repository folders.
 '''
 
-__all__ = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
+__authors__ = 'Nathan Hagen'
+__license__ = 'MIT/X11 License'
+__contact__ = 'Nathan Hagen <and.the.light.shattered@gmail.com>'
+__all__     = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
@@ -32,17 +34,16 @@ def JCAMP_reader(filename):
         The dictionary containing the header and data vectors.
     '''
 
-    f = open(filename, 'r')
+    filehandle = open(filename, 'r')
     jcamp_dict = {'filename':filename}
     xstart = []
     xnum = []
     y = []
     x = []
     datastart = False
-    values_pattern = re.compile('\s*\w\s*')
     jcamp_numbers_pattern = re.compile(r'([+-]?\d+\.\d*)|([+-]?\d+)')
 
-    for line in f:
+    for line in filehandle:
         if not line.strip(): continue
         if line.startswith('$$'): continue
 
@@ -52,7 +53,7 @@ def JCAMP_reader(filename):
             (lhs,rhs) = line.split('=', 1)
             lhs = lhs.strip().lower()
             rhs = rhs.strip()
-            continuation = rhs.endswith('=')
+            #continuation = rhs.endswith('=')
 
             if rhs.isdigit():
                 jcamp_dict[lhs] = int(rhs)
@@ -78,7 +79,7 @@ def JCAMP_reader(filename):
 
             if not all(is_float(datavals)): continue
             xstart.append(float(datavals[0]))
-            xnum.append(len(datavals)-1)
+            xnum.append(len(datavals) - 1)
             for dataval in datavals[1:]:
                 y.append(float(dataval))
         elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
@@ -89,9 +90,6 @@ def JCAMP_reader(filename):
             y.extend(datavals[1::2])        ## every other data point starting at the first
         elif datastart and ('peak table' in jcamp_dict) and (datatype == '(XY..XY)'):
             datavals = [v.strip() for v in line.split(' ') if v]  ## be careful not to allow empty strings
-            #datavals = values_pattern.split(line)
-            #datavals = [v for v]
-            #print('datavals=', datavals)
             if not all(is_float(datavals)): continue
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
@@ -115,6 +113,8 @@ def JCAMP_reader(filename):
     if ('yfactor' in jcamp_dict): y = y * jcamp_dict['yfactor']
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
+
+    filehandle.close()
 
     return(jcamp_dict)
 
@@ -237,14 +237,6 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     ## Add the "xsec" values to the data dictionary.
     jcamp_dict['xsec'] = xsec
 
-    if (jcamp_dict['title'].lower() == 'ethylene'):
-        import matplotlib.pyplot as plt
-        okay = logical_and((jcamp_dict['wavelengths'] > 7.5), (jcamp_dict['wavelengths'] < 14.0))
-        plt.figure()
-        plt.plot(jcamp_dict['wavelengths'][okay], jcamp_dict['xsec'][okay])
-        plt.title(jcamp_dict['title'])
-        plt.show()
-
     return
 
 ##=====================================================================================================
@@ -264,12 +256,10 @@ def is_float(s):
     '''
 
     if isinstance(s,tuple) or isinstance(s,list):
-        if not all(isinstance(i,str) for i in s): raise TypeError("Input 's' is not a list of strings")
-        if len(s) == 0:
-            try:
-                temp = float(i)
-            except ValueError:
-                return(False)
+        if not all(isinstance(i,str) for i in s):
+            raise TypeError("Input '%s' is not a list of strings" % (s))
+        if (len(s) == 0):
+            raise ValueError("Input argument is empty.")
         else:
             bool = list(True for i in xrange(0,len(s)))
             for i in xrange(0,len(s)):
@@ -279,7 +269,7 @@ def is_float(s):
                     bool[i] = False
         return(bool)
     else:
-        if not isinstance(s,str): raise TypeError("Input 's' is not a string")
+        if not isinstance(s,str): raise TypeError("Input '%s' is not a string" % (s))
         try:
             temp = float(s)
             return(True)
