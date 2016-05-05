@@ -1,6 +1,6 @@
 from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, logical_not, log10, nan
 import re
-#import pdb
+
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -42,7 +42,8 @@ def JCAMP_reader(filename):
     x = []
     datastart = False
     jcamp_numbers_pattern = re.compile(r'([+-]?\d+\.\d*)|([+-]?\d+)')
-
+    re_le = re.compile(r'\(0\.{2}\d+\)')
+    re_num = re.compile('\d+')
     for line in filehandle:
         if not line.strip(): continue
         if line.startswith('$$'): continue
@@ -66,8 +67,16 @@ def JCAMP_reader(filename):
                 datastart = True
                 datatype = rhs
                 continue        ## data starts on next line
-            elif (lhs == 'end'):
-                datastart = False
+            elif re_le.match(rhs):
+                bounds = [ int(x) for x in re_num.findall(rhs)]
+                datastart = True
+                datatype = bounds
+                datalist = []
+                jcamp_dict[lhs] = datalist
+                continue
+            elif datastart:
+                if (lhs == 'end' or len(datalist)==(bounds[1]+1)):
+                    datastart = False
 
         if datastart and (datatype == '(X++(Y..Y))'):
             ## If the line does not start with '##' or '$$' then it should be a data line.
@@ -94,6 +103,21 @@ def JCAMP_reader(filename):
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
             y.extend(datavals[1::2])        ## every other data point starting at the first
+        elif datastart and isinstance(datatype,list):
+            ## If the line does not start with '##' or '$$' then it should be a data line.
+            ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
+            ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
+            new = re.split(jcamp_numbers_pattern, line.strip())
+            new = [n for n in new if n != '' and n is not None]
+            datavals = [n for n in new if n.strip() != '']
+
+            if all(is_float(datavals)):
+                for i,dataval in enumerate(datavals):
+                    datavals[i] = float(dataval)
+
+            datalist += datavals            
+
+            
 
     if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
         ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
