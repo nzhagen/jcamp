@@ -45,8 +45,10 @@ def JCAMP_reader(filename):
     re_le = re.compile(r'\(0\.{2}\d+\)')
     re_num = re.compile('\d+')
     for line in filehandle:
-        if not line.strip(): continue
-        if line.startswith('$$'): continue
+            if not line.strip():
+                continue
+            if line.startswith('$$'):
+                continue
 
         ## Lines beginning with '##' are header lines.
         if line.startswith('##'):
@@ -67,7 +69,7 @@ def JCAMP_reader(filename):
                 datastart = True
                 datatype = rhs
                 continue        ## data starts on next line
-            elif re_le.match(rhs):
+                elif (lhs == 'end'):
                 bounds = [ int(x) for x in re_num.findall(rhs)]
                 datastart = True
                 datatype = bounds
@@ -281,21 +283,23 @@ def is_float(s):
 
     if isinstance(s,tuple) or isinstance(s,list):
         if not all(isinstance(i,str) for i in s):
-            raise TypeError("Input '%s' is not a list of strings" % (s))
+            raise TypeError("Input {} is not a list of strings".format(s))
         if (len(s) == 0):
-            raise ValueError("Input argument is empty.")
+            raise ValueError('Input {} is empty'.format(s))
         else:
+            bool = list(True for i in range(0,len(s)))
+            for i in range(0,len(s)):
             bool = list(True for i in xrange(0,len(s)))
             for i in xrange(0,len(s)):
                 try:
-                    temp = float(s[i])
+                    float(s[i])
                 except ValueError:
                     bool[i] = False
         return(bool)
     else:
         if not isinstance(s,str): raise TypeError("Input '%s' is not a string" % (s))
         try:
-            temp = float(s)
+            float(s)
             return(True)
         except ValueError:
             return(False)
