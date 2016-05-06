@@ -1,7 +1,6 @@
 from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, logical_not, log10, nan
 import re
 
-
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
 function `JCAMP_reader()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
@@ -69,7 +68,7 @@ def JCAMP_reader(filename):
                 datastart = True
                 datatype = rhs
                 continue        ## data starts on next line
-                elif (lhs == 'end'):
+            elif (lhs == 'end'):
                 bounds = [ int(x) for x in re_num.findall(rhs)]
                 datastart = True
                 datatype = bounds
@@ -118,8 +117,6 @@ def JCAMP_reader(filename):
                     datavals[i] = float(dataval)
 
             datalist += datavals            
-
-            
 
     if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
         ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
@@ -287,8 +284,6 @@ def is_float(s):
         if (len(s) == 0):
             raise ValueError('Input {} is empty'.format(s))
         else:
-            bool = list(True for i in range(0,len(s)))
-            for i in range(0,len(s)):
             bool = list(True for i in xrange(0,len(s)))
             for i in xrange(0,len(s)):
                 try:
@@ -309,7 +304,7 @@ def is_float(s):
 
 if (__name__ == '__main__'):
     import matplotlib.pyplot as plt
-    filename = './infrared_spectra/ethylene.jdx'
+    filename = './data/infrared_spectra/ethylene.jdx'
     jcamp_dict = JCAMP_reader(filename)
     plt.plot(jcamp_dict['x'], jcamp_dict['y'])
     plt.title(filename)
@@ -323,7 +318,7 @@ if (__name__ == '__main__'):
     plt.xlabel('wavelength (um)')
     plt.ylabel('absorption cross-section (m^2)')
 
-    filename = './uvvis_spectra/toluene.jdx'
+    filename = './data/uvvis_spectra/toluene.jdx'
     plt.figure()
     jcamp_dict = JCAMP_reader(filename)
     plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'r-')
@@ -331,7 +326,7 @@ if (__name__ == '__main__'):
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
-    filename = './mass_spectra/ethanol_ms.jdx'
+    filename = './data/mass_spectra/ethanol_ms.jdx'
     jcamp_dict = JCAMP_reader(filename)
     plt.figure()
     for n in arange(alen(jcamp_dict['x'])):
@@ -340,7 +335,7 @@ if (__name__ == '__main__'):
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
-    filename = './raman_spectra/tannic_acid.jdx'
+    filename = './data/raman_spectra/tannic_acid.jdx'
     jcamp_dict = JCAMP_reader(filename)
     plt.figure()
     plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
@@ -349,4 +344,3 @@ if (__name__ == '__main__'):
     plt.ylabel(jcamp_dict['yunits'])
 
     plt.show()
-
