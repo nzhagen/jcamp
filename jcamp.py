@@ -44,10 +44,10 @@ def JCAMP_reader(filename):
     re_le = re.compile(r'\(0\.{2}\d+\)')
     re_num = re.compile('\d+')
     for line in filehandle:
-            if not line.strip():
-                continue
-            if line.startswith('$$'):
-                continue
+        if not line.strip():
+            continue
+        if line.startswith('$$'):
+            continue
 
         ## Lines beginning with '##' are header lines.
         if line.startswith('##'):
