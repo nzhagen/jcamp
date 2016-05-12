@@ -41,7 +41,7 @@ def JCAMP_reader(filename):
     y = []
     x = []
     datastart = False
-    jcamp_numbers_pattern = re.compile(r'([+-]?\d+[eE]{1}[+-]{1}\d+|[+-]?\d+\.\d*)|([+-]?\d+)')
+    jcamp_numbers_pattern = re.compile(r'([+-]?\d+[.]?\d*[eE][+-]{1}\d+|[+-]?\d+\.\d*)|([+-]?\d+)')
     re_le = re.compile(r'\(0\.{2}\d+\)')
     re_num = re.compile(r'\d+')
     for line in filehandle:
