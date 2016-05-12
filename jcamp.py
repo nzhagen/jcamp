@@ -1,3 +1,6 @@
+# -*- coding: UTF-8 -*-
+# See the LICENSE.rst file for licensing information.
+
 from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, logical_not, log10, nan
 import re
 
@@ -41,7 +44,7 @@ def JCAMP_reader(filename):
     x = []
     datastart = False
     jcamp_numbers_pattern = re.compile(r'([+-]?\d+[eE]{1}[+-]{1}\d+|[+-]?\d+\.\d*)|([+-]?\d+)')
-    re_le = re.compile(r'\(0\.{2}\d+\)')
+    #re_le = re.compile(r'\(0\.{2}\d+\)')
     re_num = re.compile(r'\d+')
     for line in filehandle:
         if not line.strip():
@@ -69,7 +72,7 @@ def JCAMP_reader(filename):
                 datatype = rhs
                 continue        ## data starts on next line
             elif (lhs == 'end'):
-                bounds = [ int(x) for x in re_num.findall(rhs)]
+                bounds = [int(i) for i   in re_num.findall(rhs)]
                 datastart = True
                 datatype = bounds
                 datalist = []
@@ -111,12 +114,12 @@ def JCAMP_reader(filename):
             new = re.split(jcamp_numbers_pattern, line.strip())
             new = [n for n in new if n != '' and n is not None]
             datavals = [n for n in new if n.strip() != '']
-            
+
             if all(is_float(datavals)):
                 for i,dataval in enumerate(datavals):
                     datavals[i] = float(dataval)
 
-            datalist += datavals            
+            datalist += datavals
 
     if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
         ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
