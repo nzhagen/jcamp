@@ -287,8 +287,8 @@ def is_float(s):
         if (len(s) == 0):
             raise ValueError('Input {} is empty'.format(s))
         else:
-            bool = list(True for i in xrange(0,len(s)))
-            for i in xrange(0,len(s)):
+            bool = list(True for i in range(0,len(s)))
+            for i in range(0,len(s)):
                 try:
                     float(s[i])
                 except ValueError:
