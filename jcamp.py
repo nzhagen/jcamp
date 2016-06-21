@@ -96,13 +96,13 @@ def JCAMP_reader(filename):
             for dataval in datavals[1:]:
                 y.append(float(dataval))
         elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
-            datavals = [v.strip() for v in line.split(',')]     ## split at commas and remove whitespace
+            datavals = [v.strip() for v in re.split(r"[, ]", line) if v]  ## be careful not to allow empty strings
             if not all(is_float(datavals)): continue
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
             y.extend(datavals[1::2])        ## every other data point starting at the first
         elif datastart and ('peak table' in jcamp_dict) and (datatype == '(XY..XY)'):
-            datavals = [v.strip() for v in line.split(' ') if v]  ## be careful not to allow empty strings
+            datavals = [v.strip() for v in re.split(r"[, ]", line) if v]  ## be careful not to allow empty strings
             if not all(is_float(datavals)): continue
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
