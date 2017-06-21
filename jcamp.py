@@ -85,6 +85,12 @@ def jcamp_parse(line):
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
+    with open(filename, 'r') as f:
+        data = jcamp_read(f)
+    data['filename'] = filename
+    return data
+
+def jcamp_read(f):
     '''
     Read a JDX-format file, and return a dictionary containing the header info, a 1D numpy vectors `x` for
     the abscissa information (e.g. wavelength or wavenumber) and `y` for the ordinate information (e.g.
@@ -101,15 +107,14 @@ def JCAMP_reader(filename):
         The dictionary containing the header and data vectors.
     '''
 
-    filehandle = open(filename, 'r')
-    jcamp_dict = {'filename':filename}
+    jcamp_dict = {}
     xstart = []
     xnum = []
     y = []
     x = []
     datastart = False
     re_num = re.compile(r'\d+')
-    for line in filehandle:
+    for line in f:
         if not line.strip():
             continue
         if line.startswith('$$'):
@@ -193,9 +198,7 @@ def JCAMP_reader(filename):
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
 
-    filehandle.close()
-
-    return(jcamp_dict)
+    return jcamp_dict
 
 ##=====================================================================================================
 def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, debug=False):
