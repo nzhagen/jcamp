@@ -18,6 +18,71 @@ __license__ = 'MIT/X11 License'
 __contact__ = 'Nathan Hagen <and.the.light.shattered@gmail.com>'
 __all__     = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
 
+SQZ_digits = {
+    '@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+6', 'G':'+7', 'H':'+8', 'I':'+9',
+    ' ':'+0', 'a':'-1', 'b':'-2', 'c':'-3', 'd':'-4', 'e':'-5', 'f':'-6', 'g':'-7', 'h':'-8', 'i':'-9',
+    "+": "+", # For PAC
+    "-": "-", # For PAC
+    ",": " ", # For CSV
+}
+DIF_digits = {
+    '%': 0, 'J':  1, 'K':  2, 'L':  3, 'M':  4, 'N':  5, 'O':  6, 'P':  7, 'Q':  8, 'R':  9,
+            'j': -1, 'k': -2, 'l': -3, 'm': -4, 'n': -5, 'o': -6, 'p': -7, 'q': -8, 'r': -9,
+}
+DUP_digits = {
+    'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8, 's':9,
+}
+
+def get_value(num, is_dif, vals):
+    n = float(num)
+    if is_dif:
+        lastval = vals[-1]
+        val = n + lastval
+    else:
+        val = n
+    return val
+
+def jcamp_parse(line):
+    line = line.strip()
+
+    datavals = []
+    num = ""
+    newline = list(line[:])
+    offset = 0
+    for i, c in enumerate(line):
+        if c in DUP_digits:
+            prev_c = line[i-1]
+            mul = DUP_digits[c]
+            newline.pop(i + offset)
+            for j in range(mul - 1):
+                newline.insert(i + offset, prev_c)
+            offset += mul
+    line = "".join(newline)
+
+    DIF = False
+    for c in line:
+        if c.isdigit() or c == ".":
+            num += c
+        elif c in SQZ_digits:
+            DIF = False
+            if num:
+                n = get_value(num, DIF, datavals)
+                datavals.append(n)
+            num = SQZ_digits[c]
+        elif c in DIF_digits:
+            if num:
+                n = get_value(num, DIF, datavals)
+                datavals.append(n)
+            DIF = True
+            num = str(DIF_digits[c])
+        else:
+            raise Exception("Unknown caracter (%s) encountered while parsing data" % c)
+
+    if num:
+        n = get_value(num, DIF, datavals)
+        datavals.append(n)
+    return datavals
+
 ##=====================================================================================================
 def JCAMP_reader(filename):
     '''
@@ -43,8 +108,6 @@ def JCAMP_reader(filename):
     y = []
     x = []
     datastart = False
-    jcamp_numbers_pattern = re.compile(r'([+-]?\d+[.]?\d*[eE][+-]{1}\d+|[+-]?\d+\.\d*)|([+-]?\d+)')
-    #re_le = re.compile(r'\(0\.{2}\d+\)')
     re_num = re.compile(r'\d+')
     for line in filehandle:
         if not line.strip():
@@ -86,11 +149,7 @@ def JCAMP_reader(filename):
             ## If the line does not start with '##' or '$$' then it should be a data line.
             ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
             ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
-            new = re.split(jcamp_numbers_pattern, line.strip())
-            new = [n for n in new if n != '' and n is not None]
-            datavals = [n for n in new if n.strip() != '']
-
-            if not all(is_float(datavals)): continue
+            datavals = jcamp_parse(line)
             xstart.append(float(datavals[0]))
             xnum.append(len(datavals) - 1)
             for dataval in datavals[1:]:
@@ -111,13 +170,7 @@ def JCAMP_reader(filename):
             ## If the line does not start with '##' or '$$' then it should be a data line.
             ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
             ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
-            new = re.split(jcamp_numbers_pattern, line.strip())
-            new = [n for n in new if n != '' and n is not None]
-            datavals = [n for n in new if n.strip() != '']
-
-            if all(is_float(datavals)):
-                for i,dataval in enumerate(datavals):
-                    datavals[i] = float(dataval)
+            datavals = jcamp_parse(line)
 
             datalist += datavals
 
