@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 # See the LICENSE.rst file for licensing information.
 
-from numpy import array, linspace, amin, amax, alen, append, arange, float64, logical_and, logical_not, log10, nan
+from numpy import array, linspace, alen, append, arange, logical_not, log10, nan
 import re
 
 '''
