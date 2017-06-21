@@ -6,6 +6,13 @@ from jcamp import JCAMP_calc_xsec, JCAMP_reader, jcamp_parse
 
 
 class TestJcamp(unittest.TestCase):
+
+    def assertAlmostEqualRelative(self, val1, val2, tolerance=1e-2):
+        diff = float(abs(val1 - val2))
+        if val1 and diff / val1 > tolerance and diff / val2 > tolerance:
+            raise Exception("%s is not close enough from %s" % (val1, val2))
+        return True
+
     def test_read_IR(self):
         for root, dirs, files in os.walk("./data/infrared_spectra"):
             for filename in files:
@@ -15,10 +22,10 @@ class TestJcamp(unittest.TestCase):
                 self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
                 self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
                 self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
-                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'], places=0)
-                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'], places=0)
-                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'], places=0)
-                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'], places=0)
+                self.assertAlmostEqualRelative(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['y']), jcamp_dict['maxy'])
 
     def test_read_raman(self):
         for root, dirs, files in os.walk("./data/raman_spectra"):
@@ -29,10 +36,10 @@ class TestJcamp(unittest.TestCase):
                 self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
                 self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
                 self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
-                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'], places=0)
-                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'], places=0)
-                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'], places=0)
-                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'], places=0)
+                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
 
     def test_read_uv(self):
         for root, dirs, files in os.walk("./data/uvvus_spectra"):
@@ -43,10 +50,10 @@ class TestJcamp(unittest.TestCase):
                 self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
                 self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
                 self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
-                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'], places=0)
-                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'], places=0)
-                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'], places=0)
-                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'], places=0)
+                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
 
     def test_line_parse(self):
         # tests from http://wwwchem.uwimona.edu.jm/software/jcampdx.html
