@@ -41,6 +41,20 @@ class TestJcamp(unittest.TestCase):
                 self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
                 self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
 
+    def test_read_hnmr_spectra(self):
+        for root, dirs, files in os.walk("./data/hnmr_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
     def test_read_uv(self):
         for root, dirs, files in os.walk("./data/uvvus_spectra"):
             for filename in files:
@@ -54,6 +68,23 @@ class TestJcamp(unittest.TestCase):
                 self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
                 self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
                 self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
+    def test_read_mass(self):
+        for root, dirs, files in os.walk("./data/mass_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                ## Mass files seem to be more complex, and current parsing fails on
+                ## Some assumptions
+                # self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                if 'minx' in jcamp_dict:
+                    self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
+                    self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
+                    self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                    self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
 
     def test_line_parse(self):
         # tests from http://wwwchem.uwimona.edu.jm/software/jcampdx.html

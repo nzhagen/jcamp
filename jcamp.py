@@ -136,6 +136,9 @@ def jcamp_read(f):
                 jcamp_dict[lhs] = rhs
 
             if (lhs in ('xydata','xypoints','peak table')):
+                # This is a new data entry, reset x and y.
+                x = []
+                y = []
                 datastart = True
                 datatype = rhs
                 continue        ## data starts on next line
@@ -147,8 +150,7 @@ def jcamp_read(f):
                 jcamp_dict[lhs] = datalist
                 continue
             elif datastart:
-                if (lhs == 'end' or len(datalist)==(bounds[1]+1)):
-                    datastart = False
+                datastart = False
 
         if datastart and (datatype == '(X++(Y..Y))'):
             ## If the line does not start with '##' or '$$' then it should be a data line.
@@ -186,15 +188,17 @@ def jcamp_read(f):
         x = array([])
         for n in range(len(xnum)):
             x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
-        y = array(y)
+        y = array([float(yval) for yval in y])
     else:
         x = array([float(xval) for xval in x])
         y = array([float(yval) for yval in y])
 
     ## The "xfactor" and "yfactor" variables contain any scaling information that may need to be applied
     ## to the data. Go ahead and apply them.
-    if ('xfactor' in jcamp_dict): x = x * jcamp_dict['xfactor']
-    if ('yfactor' in jcamp_dict): y = y * jcamp_dict['yfactor']
+    if ('xfactor' in jcamp_dict):
+        x = x * jcamp_dict['xfactor']
+    if ('yfactor' in jcamp_dict):
+        y = y * jcamp_dict['yfactor']
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
 
