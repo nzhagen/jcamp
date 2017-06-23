@@ -147,7 +147,6 @@ def jcamp_read(f):
                 datastart = True
                 datatype = bounds
                 datalist = []
-                jcamp_dict[lhs] = datalist
                 continue
             elif datastart:
                 datastart = False

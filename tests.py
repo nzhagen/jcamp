@@ -136,7 +136,7 @@ class TestJcamp(unittest.TestCase):
         self.assertEqual(jcamp_dict['owner'], 'COBLENTZ SOCIETY')
         self.assertEqual(jcamp_dict['maxx'], 3801.32)
         self.assertEqual(jcamp_dict['maxy'], 1.03697)
-        self.assertEqual(jcamp_dict['end'], [])
+        self.assertEqual(jcamp_dict['end'], '')
         self.assertEqual(jcamp_dict['title'], 'METHANE')
         self.assertEqual(jcamp_dict['lastx'], 3801.32)
         self.assertEqual(jcamp_dict['state'], 'GAS')
