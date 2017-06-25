@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name="jcamp",
     py_modules=["jcamp"],
-    version="1.0",
+    version="1.1",
     description="JCAMP-DX file reader",
     author="Nathan Hagen",
     author_email="nhagen@optics.arizona.edu",
