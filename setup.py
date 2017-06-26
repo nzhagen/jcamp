@@ -1,11 +1,19 @@
-# chardet's setup.py
 from setuptools import setup
+from codecs import open  ## To use a consistent encoding
+from os import path
 
+here = path.abspath(path.dirname(__file__))
+
+# Get the long description from the relevant file
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+    
 setup(
     name="jcamp",
     py_modules=["jcamp"],
     version="1.1",
     description="JCAMP-DX file reader",
+    long_description = long_description,         ## from above
     author="Nathan Hagen",
     author_email="nhagen@optics.arizona.edu",
     url="https://github.com/nzhagen/jcamp",
@@ -23,14 +31,5 @@ setup(
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering",
         ],
-    long_description="""\
-A reader for JCAMP-DX format spectral data files.
------------------------------------------------------------
-
-"jcamp" reads in any JCAMP-DX format file and builds a dictionary containing
-the file header metadata. The spectrum itself is saved as a pair of Numpy
-arrays, accessed as keys "x" and "y" in the returned dictionary.
-
-This version requires Python 2.7 or later.
-"""
+    include_package_data=True
 )
