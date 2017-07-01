@@ -33,56 +33,6 @@ DUP_digits = {
     'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8, 's':9,
 }
 
-def get_value(num, is_dif, vals):
-    n = float(num)
-    if is_dif:
-        lastval = vals[-1]
-        val = n + lastval
-    else:
-        val = n
-    return val
-
-def jcamp_parse(line):
-    line = line.strip()
-
-    datavals = []
-    num = ""
-    newline = list(line[:])
-    offset = 0
-    for (i,c) in enumerate(line):
-        if (c in DUP_digits):
-            prev_c = line[i-1]
-            mul = DUP_digits[c]
-            newline.pop(i + offset)
-            for j in range(mul - 1):
-                newline.insert(i + offset, prev_c)
-            offset += mul
-    line = "".join(newline)
-
-    DIF = False
-    for c in line:
-        if c.isdigit() or (c == "."):
-            num += c
-        elif (c in SQZ_digits):
-            DIF = False
-            if num:
-                n = get_value(num, DIF, datavals)
-                datavals.append(n)
-            num = SQZ_digits[c]
-        elif (c in DIF_digits):
-            if num:
-                n = get_value(num, DIF, datavals)
-                datavals.append(n)
-            DIF = True
-            num = str(DIF_digits[c])
-        else:
-            raise Exception("Unknown caracter (%s) encountered while parsing data" % c)
-
-    if num:
-        n = get_value(num, DIF, datavals)
-        datavals.append(n)
-    return datavals
-
 ##=====================================================================================================
 def JCAMP_reader(filename):
     with open(filename, 'r') as filehandle:
@@ -362,6 +312,56 @@ def is_float(s):
             return(True)
         except ValueError:
             return(False)
+
+def get_value(num, is_dif, vals):
+    n = float(num)
+    if is_dif:
+        lastval = vals[-1]
+        val = n + lastval
+    else:
+        val = n
+    return val
+
+def jcamp_parse(line):
+    line = line.strip()
+
+    datavals = []
+    num = ""
+    newline = list(line[:])
+    offset = 0
+    for (i,c) in enumerate(line):
+        if (c in DUP_digits):
+            prev_c = line[i-1]
+            mul = DUP_digits[c]
+            newline.pop(i + offset)
+            for j in range(mul - 1):
+                newline.insert(i + offset, prev_c)
+            offset += mul
+    line = "".join(newline)
+
+    DIF = False
+    for c in line:
+        if c.isdigit() or (c == "."):
+            num += c
+        elif (c in SQZ_digits):
+            DIF = False
+            if num:
+                n = get_value(num, DIF, datavals)
+                datavals.append(n)
+            num = SQZ_digits[c]
+        elif (c in DIF_digits):
+            if num:
+                n = get_value(num, DIF, datavals)
+                datavals.append(n)
+            DIF = True
+            num = str(DIF_digits[c])
+        else:
+            raise Exception("Unknown caracter (%s) encountered while parsing data" % c)
+
+    if num:
+        n = get_value(num, DIF, datavals)
+        datavals.append(n)
+    return datavals
 
 ## =================================================================================================
 ## =================================================================================================
