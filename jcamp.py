@@ -21,16 +21,16 @@ __all__     = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
 SQZ_digits = {
     '@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+6', 'G':'+7', 'H':'+8', 'I':'+9',
     ' ':'+0', 'a':'-1', 'b':'-2', 'c':'-3', 'd':'-4', 'e':'-5', 'f':'-6', 'g':'-7', 'h':'-8', 'i':'-9',
-    "+": "+", # For PAC
-    "-": "-", # For PAC
-    ",": " ", # For CSV
+    '+':'+', ## For PAC
+    '-':'-', ## For PAC
+    ',':' ', ## For CSV
 }
 DIF_digits = {
-    '%': 0, 'J':  1, 'K':  2, 'L':  3, 'M':  4, 'N':  5, 'O':  6, 'P':  7, 'Q':  8, 'R':  9,
-            'j': -1, 'k': -2, 'l': -3, 'm': -4, 'n': -5, 'o': -6, 'p': -7, 'q': -8, 'r': -9,
+    '%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q':8,  'R':9,
+            'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9,
 }
 DUP_digits = {
-    'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8, 's':9,
+    'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8, 's':9,
 }
 
 def get_value(num, is_dif, vals):
@@ -49,8 +49,8 @@ def jcamp_parse(line):
     num = ""
     newline = list(line[:])
     offset = 0
-    for i, c in enumerate(line):
-        if c in DUP_digits:
+    for (i,c) in enumerate(line):
+        if (c in DUP_digits):
             prev_c = line[i-1]
             mul = DUP_digits[c]
             newline.pop(i + offset)
@@ -61,15 +61,15 @@ def jcamp_parse(line):
 
     DIF = False
     for c in line:
-        if c.isdigit() or c == ".":
+        if c.isdigit() or (c == "."):
             num += c
-        elif c in SQZ_digits:
+        elif (c in SQZ_digits):
             DIF = False
             if num:
                 n = get_value(num, DIF, datavals)
                 datavals.append(n)
             num = SQZ_digits[c]
-        elif c in DIF_digits:
+        elif (c in DIF_digits):
             if num:
                 n = get_value(num, DIF, datavals)
                 datavals.append(n)
@@ -85,12 +85,12 @@ def jcamp_parse(line):
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
-    with open(filename, 'r') as f:
-        data = jcamp_read(f)
+    with open(filename, 'r') as filehandle:
+        data = jcamp_read(filehandle)
     data['filename'] = filename
     return data
 
-def jcamp_read(f):
+def jcamp_read(filehandle):
     '''
     Read a JDX-format file, and return a dictionary containing the header info, a 1D numpy vectors `x` for
     the abscissa information (e.g. wavelength or wavenumber) and `y` for the ordinate information (e.g.
@@ -98,8 +98,8 @@ def jcamp_read(f):
 
     Parameters
     ----------
-    filename : str
-        The JCAMP-DX filename to read.
+    filehandle : str
+        The object representing the JCAMP-DX filename to read.
 
     Returns
     -------
@@ -114,7 +114,7 @@ def jcamp_read(f):
     x = []
     datastart = False
     re_num = re.compile(r'\d+')
-    for line in f:
+    for line in filehandle:
         if not line.strip():
             continue
         if line.startswith('$$'):
@@ -136,7 +136,7 @@ def jcamp_read(f):
                 jcamp_dict[lhs] = rhs
 
             if (lhs in ('xydata','xypoints','peak table')):
-                # This is a new data entry, reset x and y.
+                ## This is a new data entry, reset x and y.
                 x = []
                 y = []
                 datastart = True
@@ -201,7 +201,7 @@ def jcamp_read(f):
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
 
-    return jcamp_dict
+    return(jcamp_dict)
 
 ##=====================================================================================================
 def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, debug=False):
@@ -354,7 +354,9 @@ def is_float(s):
                     bool[i] = False
         return(bool)
     else:
-        if not isinstance(s, (str, unicode)): raise TypeError("Input '%s' is not a string" % (s))
+        if not isinstance(s, (str, unicode)): 
+            raise TypeError("Input '%s' is not a string" % (s))
+
         try:
             float(s)
             return(True)
