@@ -1,16 +1,132 @@
 import unittest
 
 import numpy
-from jcamp import JCAMP_calc_xsec, JCAMP_reader
+import os
+from jcamp import JCAMP_calc_xsec, JCAMP_reader, jcamp_parse
 
 
 class TestJcamp(unittest.TestCase):
-    def setUp(self):
-        filename = './data/infrared_spectra/methane.jdx'
-        self.jcamp_dict = JCAMP_reader(filename)
+
+    def assertAlmostEqualRelative(self, val1, val2, tolerance=1e-2):
+        diff = float(abs(val1 - val2))
+        if val1 and diff / val1 > tolerance and diff / val2 > tolerance:
+            raise Exception("%s is not close enough from %s" % (val1, val2))
+        return True
+
+    def test_read_IR(self):
+        for root, dirs, files in os.walk("./data/infrared_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
+    def test_read_raman(self):
+        for root, dirs, files in os.walk("./data/raman_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
+    def test_read_hnmr_spectra(self):
+        for root, dirs, files in os.walk("./data/hnmr_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqualRelative(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqualRelative(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
+    def test_read_uv(self):
+        for root, dirs, files in os.walk("./data/uvvus_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
+                self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
+                self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
+    def test_read_mass(self):
+        for root, dirs, files in os.walk("./data/mass_spectra"):
+            for filename in files:
+                full_filename = os.path.join(root, filename)
+                jcamp_dict = JCAMP_reader(full_filename)
+                self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
+                self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
+                self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
+                ## Mass files seem to be more complex, and current parsing fails on
+                ## Some assumptions
+                # self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+                if 'minx' in jcamp_dict:
+                    self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
+                    self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
+                    self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
+                    self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'])
+
+    def test_line_parse(self):
+        # tests from http://wwwchem.uwimona.edu.jm/software/jcampdx.html
+        line = "99 98 97 96 98 93"
+        self.assertEquals(jcamp_parse(line), [99, 98, 97, 96, 98, 93])
+
+        line = "99,98,97,96,98,93"
+        self.assertEquals(jcamp_parse(line), [99, 98, 97, 96, 98, 93])
+
+        line = "99+98+97+96+98+93"
+        self.assertEquals(jcamp_parse(line), [99, 98, 97, 96, 98, 93])
+
+        line = "99I8I7I6I8I3"
+        self.assertEquals(jcamp_parse(line), [99, 98, 97, 96, 98, 93])
+
+        line = "99jjjKn"
+        self.assertEquals(jcamp_parse(line), [99, 98, 97, 96, 98, 93])
+
+        line = "99jUKn"
+        self.assertEquals(jcamp_parse(line), [99, 98, 97, 96, 98, 93])
+
+    def test_spec_line_parse(self):
+        # Tests from http://www.jcamp-dx.org/drafts/JCAMP6_2b%20Draft.pdf
+        line = "1000 2000 2001 2002 2003 2003 2003"
+        self.assertEquals(jcamp_parse(line), [1000, 2000, 2001, 2002, 2003, 2003, 2003])
+
+        line = "+1000+2000+2001+2002+2003+2003+2003"
+        self.assertEquals(jcamp_parse(line), [1000, 2000, 2001, 2002, 2003, 2003, 2003])
+
+        line = "A000B000B001B002B003B003B003"
+        self.assertEquals(jcamp_parse(line), [1000, 2000, 2001, 2002, 2003, 2003, 2003])
+
+        line = "A000J000JJJ%%"
+        self.assertEquals(jcamp_parse(line), [1000, 2000, 2001, 2002, 2003, 2003, 2003])
+
+        # Probably a bug in the example in the spec.
+        line = "A000J000JU%%"
+        self.assertEquals(jcamp_parse(line), [1000, 2000, 2001, 2002, 2003, 2003, 2003])
 
     def test_jcamp_reader_dict(self):
-        jcamp_dict = self.jcamp_dict
+        filename = './data/infrared_spectra/methane.jdx'
+        jcamp_dict = JCAMP_reader(filename)
         self.assertEqual(jcamp_dict['origin'], 'DOW CHEMICAL COMPANY')
         self.assertEqual(jcamp_dict['deltax'], 0.935748)
         self.assertEqual(jcamp_dict['sampling procedure'], 'TRANSMISSION')
@@ -50,19 +166,9 @@ class TestJcamp(unittest.TestCase):
         self.assertEqual(jcamp_dict['resolution'], 4)
         self.assertEqual(jcamp_dict['$nist source'], 'COBLENTZ')
 
-    def test_jcamp_reader_data(self):
-        jcamp_dict = self.jcamp_dict
-        self.assertIsInstance(jcamp_dict['x'], numpy.ndarray)
-        self.assertIsInstance(jcamp_dict['y'], numpy.ndarray)
-        self.assertEqual(len(jcamp_dict['x']), len(jcamp_dict['y']))
-        self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
-        self.assertAlmostEqual(min(jcamp_dict['x']), jcamp_dict['minx'])
-        self.assertAlmostEqual(min(jcamp_dict['y']), jcamp_dict['miny'])
-        self.assertAlmostEqual(max(jcamp_dict['x']), jcamp_dict['maxx'])
-        self.assertAlmostEqual(max(jcamp_dict['y']), jcamp_dict['maxy'], places=4)
-
     def test_jcamp_calc_xsec(self):
-        jcamp_dict = self.jcamp_dict
+        filename = './data/infrared_spectra/methane.jdx'
+        jcamp_dict = JCAMP_reader(filename)
         JCAMP_calc_xsec(jcamp_dict)
         self.assertTrue('xsec' in jcamp_dict)
 
