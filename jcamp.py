@@ -3,6 +3,7 @@
 
 from numpy import array, linspace, alen, append, arange, logical_not, log10, nan
 import re
+from six import string_types
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -291,7 +292,7 @@ def is_float(s):
     '''
 
     if isinstance(s,tuple) or isinstance(s,list):
-        if not all(isinstance(i, basestring) for i in s):
+        if not all(isinstance(i, string_types) for i in s):
             raise TypeError("Input {} is not a list of strings".format(s))
         if (len(s) == 0):
             raise ValueError('Input {} is empty'.format(s))
@@ -304,7 +305,7 @@ def is_float(s):
                     bool[i] = False
         return(bool)
     else:
-        if not isinstance(s, basestring): 
+        if not isinstance(s, string_types): 
             raise TypeError("Input '%s' is not a string" % (s))
 
         try:
