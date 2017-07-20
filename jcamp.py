@@ -328,6 +328,7 @@ def jcamp_parse(line):
 
     datavals = []
     num = ""
+    line = line.replace('  ',' ')
     newline = list(line[:])
     offset = 0
     for (i,c) in enumerate(line):
