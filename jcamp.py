@@ -26,6 +26,7 @@ SQZ_digits = {
     '-':'-', ## For PAC
     ',':' ', ## For CSV
 }
+
 DIF_digits = {
     '%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q':8,  'R':9,
             'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9,
@@ -39,8 +40,9 @@ def JCAMP_reader(filename):
     with open(filename, 'r') as filehandle:
         data = jcamp_read(filehandle)
     data['filename'] = filename
-    return data
+    return(data)
 
+##=====================================================================================================
 def jcamp_read(filehandle):
     '''
     Read a JDX-format file, and return a dictionary containing the header info, a 1D numpy vectors `x` for
@@ -305,7 +307,7 @@ def is_float(s):
                     bool[i] = False
         return(bool)
     else:
-        if not isinstance(s, string_types): 
+        if not isinstance(s, string_types):
             raise TypeError("Input '%s' is not a string" % (s))
 
         try:
@@ -314,6 +316,7 @@ def is_float(s):
         except ValueError:
             return(False)
 
+##=====================================================================================================
 def get_value(num, is_dif, vals):
     n = float(num)
     if is_dif:
@@ -321,24 +324,34 @@ def get_value(num, is_dif, vals):
         val = n + lastval
     else:
         val = n
-    return val
 
+    return(val)
+
+##=====================================================================================================
 def jcamp_parse(line):
     line = line.strip()
 
     datavals = []
     num = ""
-    newline = list(line[:])
-    offset = 0
-    for (i,c) in enumerate(line):
-        if (c in DUP_digits):
-            prev_c = line[i-1]
-            mul = DUP_digits[c]
-            newline.pop(i + offset)
-            for j in range(mul - 1):
-                newline.insert(i + offset, prev_c)
-            offset += mul
-    line = "".join(newline)
+
+    ## Convert whitespace into single space by splitting the string then re-assembling with single spaces.
+    line = ' '.join(line.split())
+
+    ## If there are any coded digits, then replace the codes with the appropriate numbers.
+    str_DUP_digits = ''.join(DUP_digits.keys())
+    if any(i in 'line' for i in str_DUP_digits):
+        ## Split the line into individual characters so that you can check for coded characters one-by-one.
+        newline = list(line[:])
+        offset = 0
+        for (i,c) in enumerate(line):
+            if (c in DUP_digits):
+                prev_c = line[i-1]
+                mul = DUP_digits[c]
+                newline.pop(i + offset)
+                for j in range(mul - 1):
+                    newline.insert(i + offset, prev_c)
+                offset += mul
+        line = "".join(newline)
 
     DIF = False
     for c in line:
@@ -362,7 +375,8 @@ def jcamp_parse(line):
     if num:
         n = get_value(num, DIF, datavals)
         datavals.append(n)
-    return datavals
+
+    return(datavals)
 
 ## =================================================================================================
 ## =================================================================================================
