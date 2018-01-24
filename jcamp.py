@@ -26,7 +26,6 @@ SQZ_digits = {
     '-':'-', ## For PAC
     ',':' ', ## For CSV
 }
-
 DIF_digits = {
     '%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q':8,  'R':9,
             'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9,
@@ -37,10 +36,10 @@ DUP_digits = {
 
 ##=====================================================================================================
 def JCAMP_reader(filename):
-    with open(filename, 'r') as filehandle:
+    with open(filename, 'rb') as filehandle:
         data = jcamp_read(filehandle)
     data['filename'] = filename
-    return(data)
+    return data
 
 ##=====================================================================================================
 def jcamp_read(filehandle):
@@ -68,6 +67,7 @@ def jcamp_read(filehandle):
     datastart = False
     re_num = re.compile(r'\d+')
     for line in filehandle:
+        line=line.decode('utf-8','ignore')
         if not line.strip():
             continue
         if line.startswith('$$'):
