@@ -21,7 +21,7 @@ __all__     = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
 
 SQZ_digits = {
     '@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+6', 'G':'+7', 'H':'+8', 'I':'+9',
-    ' ':'+0', 'a':'-1', 'b':'-2', 'c':'-3', 'd':'-4', 'e':'-5', 'f':'-6', 'g':'-7', 'h':'-8', 'i':'-9',
+    'a':'-1', 'b':'-2', 'c':'-3', 'd':'-4', 'e':'-5', 'f':'-6', 'g':'-7', 'h':'-8', 'i':'-9',
     '+':'+', ## For PAC
     '-':'-', ## For PAC
     ',':' ', ## For CSV
@@ -138,8 +138,18 @@ def jcamp_read(filehandle):
         ## First look for the "lastx" dictionary entry. You will need that one to finish the set.
         xstart.append(jcamp_dict['lastx'])
         x = array([])
-        for n in range(len(xnum)):
-            x = append(x, linspace(xstart[n],xstart[n+1],xnum[n]))
+        for n in range(len(xnum)-1):
+            dx = (xstart[n+1] - xstart[n]) / xnum[n]
+            x = append(x, xstart[n]+(dx*arange(xnum[n])))
+            print(n, xstart[n], xstart[n+1], xnum[n], xstart[n]+(dx*arange(xnum[n])))
+
+        ## The last line must be treated separately.
+        if (xnum[len(xnum)-1] > 1):
+            dx = (jcamp_dict['lastx'] - xstart[len(xnum)-1]) / (xnum[len(xnum)-1] - 1.0)
+            x = append(x, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
+            print(n, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
+        else:
+            x = append(x, jcamp_dict['lastx'])
         y = array([float(yval) for yval in y])
     else:
         x = array([float(xval) for xval in x])
@@ -357,6 +367,12 @@ def jcamp_parse(line):
     for c in line:
         if c.isdigit() or (c == "."):
             num += c
+        elif (c == ' '):
+            DIF = False
+            if num:
+                n = get_value(num, DIF, datavals)
+                datavals.append(n)
+            num = ''
         elif (c in SQZ_digits):
             DIF = False
             if num:
@@ -370,7 +386,7 @@ def jcamp_parse(line):
             DIF = True
             num = str(DIF_digits[c])
         else:
-            raise Exception("Unknown caracter (%s) encountered while parsing data" % c)
+            raise Exception("Unknown character (%s) encountered while parsing data" % c)
 
     if num:
         n = get_value(num, DIF, datavals)
@@ -415,6 +431,14 @@ if (__name__ == '__main__'):
     plt.ylabel(jcamp_dict['yunits'])
 
     filename = './data/raman_spectra/tannic_acid.jdx'
+    jcamp_dict = JCAMP_reader(filename)
+    plt.figure()
+    plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel(jcamp_dict['yunits'])
+
+    filename = './data/neutron_scattering_spectra/emodine.jdx'
     jcamp_dict = JCAMP_reader(filename)
     plt.figure()
     plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
