@@ -141,13 +141,13 @@ def jcamp_read(filehandle):
         for n in range(len(xnum)-1):
             dx = (xstart[n+1] - xstart[n]) / xnum[n]
             x = append(x, xstart[n]+(dx*arange(xnum[n])))
-            print(n, xstart[n], xstart[n+1], xnum[n], xstart[n]+(dx*arange(xnum[n])))
+            #print(n, xstart[n], xstart[n+1], xnum[n], xstart[n]+(dx*arange(xnum[n])))
 
         ## The last line must be treated separately.
         if (xnum[len(xnum)-1] > 1):
             dx = (jcamp_dict['lastx'] - xstart[len(xnum)-1]) / (xnum[len(xnum)-1] - 1.0)
             x = append(x, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
-            print(n, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
+            #print(n, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
         else:
             x = append(x, jcamp_dict['lastx'])
         y = array([float(yval) for yval in y])
