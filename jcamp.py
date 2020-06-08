@@ -65,12 +65,36 @@ def jcamp_read(filehandle):
     y = []
     x = []
     datastart = False
+    is_compound = False
+    in_compound_block = False
+    compound_block_contents = []
     re_num = re.compile(r'\d+')
     for line in filehandle:
-        line=line.decode('utf-8','ignore')
+        if hasattr(line, 'decode'): # when parsing compound files, the input is an array of strings, so no need to decode it twice
+            line=line.decode('utf-8','ignore')
         if not line.strip():
             continue
         if line.startswith('$$'):
+            continue
+
+        # Detect the start of a compound block
+        if is_compound and line.upper().startswith('##TITLE'):
+            in_compound_block = True
+            compound_block_contents = [line]
+            continue 
+
+        # If we are reading a compound block, collect lines into an array to be processed by a 
+        # recursive call this this function.
+        if in_compound_block:
+            # store this line
+            compound_block_contents.append(line)
+
+            # detect the end of the block
+            if line.upper().startswith('##END'):
+                # process the entire block and put it into the children array
+                jcamp_dict['children'].append(jcamp_read(compound_block_contents))
+                in_compound_block = False 
+                compound_block_contents = []
             continue
 
         ## Lines beginning with '##' are header lines.
@@ -87,6 +111,12 @@ def jcamp_read(filehandle):
                 jcamp_dict[lhs] = float(rhs)
             else:
                 jcamp_dict[lhs] = rhs
+
+            # Detect compound files 
+            # See table XI in http://www.jcamp-dx.org/protocols/dxir01.pdf 
+            if (lhs == 'data type') and (rhs.lower() == 'link'):
+                is_compound = True
+                jcamp_dict['children'] = []
 
             if (lhs in ('xydata','xypoints','peak table')):
                 ## This is a new data entry, reset x and y.
@@ -114,13 +144,13 @@ def jcamp_read(filehandle):
             for dataval in datavals[1:]:
                 y.append(float(dataval))
         elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
-            datavals = [v.strip() for v in re.split(r"[, ]", line) if v]  ## be careful not to allow empty strings
+            datavals = [v.strip() for v in re.split(r"[,;\s]", line) if v]  ## be careful not to allow empty strings
             if not all(is_float(datavals)): continue
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
             y.extend(datavals[1::2])        ## every other data point starting at the first
         elif datastart and ('peak table' in jcamp_dict) and (datatype == '(XY..XY)'):
-            datavals = [v.strip() for v in re.split(r"[, ]", line) if v]  ## be careful not to allow empty strings
+            datavals = [v.strip() for v in re.split(r"[,;\s]", line) if v]  ## be careful not to allow empty strings
             if not all(is_float(datavals)): continue
             datavals = array(datavals)
             x.extend(datavals[0::2])        ## every other data point starting at the zeroth
@@ -445,5 +475,14 @@ if (__name__ == '__main__'):
     plt.title(filename)
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
+
+    filename = './data/infrared_spectra/example_compound_file.jdx'
+    jcamp_dict = JCAMP_reader(filename)
+    plt.figure()
+    for c in jcamp_dict['children']:
+        plt.plot(c['x'], c['y'])
+    plt.xlabel(jcamp_dict['children'][0]['xunits']) # assume all blocks have the same units
+    plt.ylabel(jcamp_dict['children'][0]['yunits'])
+    plt.title(filename)
 
     plt.show()
