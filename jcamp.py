@@ -4,6 +4,7 @@
 from numpy import array, linspace, alen, append, arange, logical_not, log10, nan
 import re
 from six import string_types
+import pdb
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
@@ -81,9 +82,9 @@ def jcamp_read(filehandle):
         if is_compound and line.upper().startswith('##TITLE'):
             in_compound_block = True
             compound_block_contents = [line]
-            continue 
+            continue
 
-        # If we are reading a compound block, collect lines into an array to be processed by a 
+        # If we are reading a compound block, collect lines into an array to be processed by a
         # recursive call this this function.
         if in_compound_block:
             # store this line
@@ -93,7 +94,7 @@ def jcamp_read(filehandle):
             if line.upper().startswith('##END'):
                 # process the entire block and put it into the children array
                 jcamp_dict['children'].append(jcamp_read(compound_block_contents))
-                in_compound_block = False 
+                in_compound_block = False
                 compound_block_contents = []
             continue
 
@@ -112,8 +113,8 @@ def jcamp_read(filehandle):
             else:
                 jcamp_dict[lhs] = rhs
 
-            # Detect compound files 
-            # See table XI in http://www.jcamp-dx.org/protocols/dxir01.pdf 
+            # Detect compound files
+            # See table XI in http://www.jcamp-dx.org/protocols/dxir01.pdf
             if (lhs == 'data type') and (rhs.lower() == 'link'):
                 is_compound = True
                 jcamp_dict['children'] = []
@@ -378,8 +379,12 @@ def jcamp_parse(line):
     line = ' '.join(line.split())
 
     ## If there are any coded digits, then replace the codes with the appropriate numbers.
-    str_DUP_digits = ''.join(DUP_digits.keys())
-    if any(i in 'line' for i in str_DUP_digits):
+    ## 'DUP_digits' are characters that represent how many times the previous character should be replicated.
+    ## 'DIF_digits' represent ...?
+    ## 'SQZ_digits' represent ...?
+    DUP_set = set(DUP_digits)
+
+    if any(c in DUP_set for c in line):
         ## Split the line into individual characters so that you can check for coded characters one-by-one.
         newline = list(line[:])
         offset = 0
