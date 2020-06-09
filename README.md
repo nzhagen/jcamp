@@ -26,3 +26,14 @@ jcamp files
 -----------
 
 The repository comes with four folders containing JCAMP-format files: ``infrared_spectra/``, ``mass_spectra/``, ``raman_spectra/``, and ``uvvis_spectra``. These were downloaded from freely-available internet databases, and can be used as example format files.
+
+Using jcamp for web queries
+---------------------------
+
+In order to use ``jcamp`` for online queries rather than static text files, we can use the following procedure with the ``requests`` package:
+
+    response = requests.get(something)
+    content = response.content.splitlines()
+    content = [line.decode("utf-8") for line in content]
+    data_dict = jcamp_read(content)
+
