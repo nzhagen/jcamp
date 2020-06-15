@@ -70,6 +70,7 @@ def jcamp_read(filehandle):
     in_compound_block = False
     compound_block_contents = []
     re_num = re.compile(r'\d+')
+    lhs = None
     for line in filehandle:
         if hasattr(line, 'decode'): # when parsing compound files, the input is an array of strings, so no need to decode it twice
             line=line.decode('utf-8','ignore')
@@ -134,6 +135,9 @@ def jcamp_read(filehandle):
                 continue
             elif datastart:
                 datastart = False
+        elif lhs is not None and not datastart:  # multiline entry
+            jcamp_dict[lhs] += '\n{}'.format(line.strip())
+
 
         if datastart and (datatype == '(X++(Y..Y))'):
             ## If the line does not start with '##' or '$$' then it should be a data line.
