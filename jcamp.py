@@ -72,28 +72,30 @@ def jcamp_read(filehandle):
     re_num = re.compile(r'\d+')
     lhs = None
     for line in filehandle:
-        if hasattr(line, 'decode'): # when parsing compound files, the input is an array of strings, so no need to decode it twice
-            line=line.decode('utf-8','ignore')
+        ## When parsing compound files, the input is an array of strings, so no need to decode it twice.
+        if hasattr(line, 'decode'):
+            line = line.decode('utf-8','ignore')
+
         if not line.strip():
             continue
         if line.startswith('$$'):
             continue
 
-        # Detect the start of a compound block
+        ## Detect the start of a compound block
         if is_compound and line.upper().startswith('##TITLE'):
             in_compound_block = True
             compound_block_contents = [line]
             continue
 
-        # If we are reading a compound block, collect lines into an array to be processed by a
-        # recursive call this this function.
+        ## If we are reading a compound block, collect lines into an array to be processed by a
+        ## recursive call this this function.
         if in_compound_block:
-            # store this line
+            ## Store this line.
             compound_block_contents.append(line)
 
-            # detect the end of the block
+            ## Detect the end of the compound block.
             if line.upper().startswith('##END'):
-                # process the entire block and put it into the children array
+                ## Process the entire block and put it into the children array.
                 jcamp_dict['children'].append(jcamp_read(compound_block_contents))
                 in_compound_block = False
                 compound_block_contents = []
@@ -114,8 +116,8 @@ def jcamp_read(filehandle):
             else:
                 jcamp_dict[lhs] = rhs
 
-            # Detect compound files
-            # See table XI in http://www.jcamp-dx.org/protocols/dxir01.pdf
+            ## Detect compound files.
+            ## See table XI in http://www.jcamp-dx.org/protocols/dxir01.pdf
             if (lhs in {'data type', 'datatype'}) and (rhs.lower() == 'link'):
                 is_compound = True
                 jcamp_dict['children'] = []
@@ -137,7 +139,6 @@ def jcamp_read(filehandle):
                 datastart = False
         elif lhs is not None and not datastart:  # multiline entry
             jcamp_dict[lhs] += '\n{}'.format(line.strip())
-
 
         if datastart and (datatype == '(X++(Y..Y))'):
             ## If the line does not start with '##' or '$$' then it should be a data line.
@@ -165,7 +166,6 @@ def jcamp_read(filehandle):
             ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
             ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
             datavals = jcamp_parse(line)
-
             datalist += datavals
 
     if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
