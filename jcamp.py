@@ -115,7 +115,7 @@ def jcamp_read(filehandle):
 
             # Detect compound files
             # See table XI in http://www.jcamp-dx.org/protocols/dxir01.pdf
-            if (lhs == 'data type') and (rhs.lower() == 'link'):
+            if (lhs in {'data type', 'datatype'}) and (rhs.lower() == 'link'):
                 is_compound = True
                 jcamp_dict['children'] = []
 
