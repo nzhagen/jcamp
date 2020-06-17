@@ -491,8 +491,17 @@ if (__name__ == '__main__'):
     plt.figure()
     for c in jcamp_dict['children']:
         plt.plot(c['x'], c['y'])
-    plt.xlabel(jcamp_dict['children'][0]['xunits']) # assume all blocks have the same units
+    plt.xlabel(jcamp_dict['children'][0]['xunits'])  # assume all blocks have the same units
     plt.ylabel(jcamp_dict['children'][0]['yunits'])
     plt.title(filename)
+
+    filename = './data/infrared_spectra/example_multiline_datasets.jdx'
+    jcamp_dict = JCAMP_reader(filename)
+    plt.figure()
+    plt.plot(jcamp_dict['x'], jcamp_dict['y'])
+    plt.title(filename)
+    plt.xlabel(jcamp_dict['xunits'])
+    plt.ylabel(jcamp_dict['yunits'])
+    plt.text(500, 0.95, jcamp_dict['comments'])
 
     plt.show()
