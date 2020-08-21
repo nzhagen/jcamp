@@ -391,16 +391,15 @@ def jcamp_parse(line):
 
     if any(c in DUP_set for c in line):
         ## Split the line into individual characters so that you can check for coded characters one-by-one.
-        newline = list(line[:])
-        offset = 0
+        newline = ''
         for (i,c) in enumerate(line):
             if (c in DUP_digits):
                 prev_c = line[i-1]
                 mul = DUP_digits[c]
-                newline.pop(i + offset)
-                for j in range(mul - 1):
-                    newline.insert(i + offset, prev_c)
-                offset += mul
+                newline += prev_c*mul
+            else:
+                mul = ''
+                newline += c
         line = "".join(newline)
 
     DIF = False
