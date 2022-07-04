@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 # See the LICENSE.rst file for licensing information.
 
-from numpy import array, linspace, alen, append, arange, logical_not, log10, nan
+from numpy import array, linspace, append, arange, logical_not, log10, nan
 import re
 from six import string_types
 import pdb
@@ -291,11 +291,11 @@ def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         ell = 0.1
         if debug: print('Path length variable not found. Using 0.1m as a default ...')
 
-    assert(alen(x) == alen(y))
+    assert(len(x) == len(y))
 
     if ('npoints' in jcamp_dict):
-        if (alen(x) != jcamp_dict['npoints']):
-            npts_retrieved = str(alen(x))
+        if (len(x) != jcamp_dict['npoints']):
+            npts_retrieved = str(len(x))
             msg = '"' + jcamp_dict['title'] + '": Number of data points retrieved (' + npts_retrieved + \
                   ') does not equal the expected length (npoints = ' + str(jcamp_dict['npoints']) + ')!'
             raise ValueError(msg)
@@ -463,7 +463,7 @@ if (__name__ == '__main__'):
     filename = './data/mass_spectra/ethanol_ms.jdx'
     jcamp_dict = JCAMP_reader(filename)
     plt.figure()
-    for n in arange(alen(jcamp_dict['x'])):
+    for n in arange(len(jcamp_dict['x'])):
         plt.plot((jcamp_dict['x'][n],jcamp_dict['x'][n]), (0.0, jcamp_dict['y'][n]), 'm-', linewidth=2.0)
     plt.title(filename)
     plt.xlabel(jcamp_dict['xunits'])
