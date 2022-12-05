@@ -19,7 +19,6 @@ setup(
     url="https://github.com/nzhagen/jcamp",
     download_url="https://github.com/nzhagen/jcamp",
     install_requires=[
-        'matplotlib',
         'numpy',
     ],
     test_suite='tests',
