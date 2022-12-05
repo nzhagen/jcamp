@@ -1,7 +1,32 @@
 jcamp
 =====
 
-A set of Python utilities for reading JCAMP-DX files.
+Overview
+--------
+
+A set of Python utilities for reading [JCAMP-DX](http://www.jcamp-dx.org/) files.
+
+The following features are supported:
+
+* JCAMP-DX are parsed
+* `x` values are normalized to wavelength values (in microns)
+* `y` values are interpreted (optional)
+
+A few example datasets are provided.
+
+
+Installation
+------------
+
+You can download and install the latest version of this software from the Python package index ([PyPI](https://pypi.org/)) as follows:
+
+```shell
+pip install --upgrade jcamp
+```
+
+
+Parsing a file
+--------------
 
 The ``JCAMP_reader()`` function takes a filename as input, and returns a dictionary containing the data found in the file. Specifically, the keys contained in the dictionary are: (1) the field names found in the file's header, with values being int- or float-type if the corresponding field is a numerical type, or a string-type otherwise. (2) two arrays ``x`` and ``y``, giving the scaled values of the data points (scaled according to the ``xfactor`` and ``yfactor`` fields in the header, if they exist. The units of ``x`` and ``y`` are whatever are indicated in the header fields ``xunits`` and ``yunits``, if these exist.
 
@@ -37,3 +62,8 @@ In order to use ``jcamp`` for online queries rather than static text files, we c
     content = [line.decode("utf-8") for line in content]
     data_dict = jcamp_read(content)
 
+
+License
+-------
+
+`jcamp` is licensed under the MIT License - see the [LICENSE.txt](./LICENSE.txt) file for details
