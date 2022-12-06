@@ -35,11 +35,11 @@ DUP_digits = {
 }
 
 ##=====================================================================================================
-def JCAMP_reader(filename):
+def jcamp_readfile(filename):
     with open(filename, 'rb') as filehandle:
         data = jcamp_read(filehandle)
     data['filename'] = filename
-    return data
+    return(data)
 
 ##=====================================================================================================
 def jcamp_read(filehandle):
@@ -202,7 +202,7 @@ def jcamp_read(filehandle):
     return(jcamp_dict)
 
 ##=====================================================================================================
-def JCAMP_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, debug=False):
+def jcamp_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, debug=False):
     '''
     Taking as input a JDX file, extract the spectrum information and transform the absorption spectrum
     from existing units to absorption cross-section.
