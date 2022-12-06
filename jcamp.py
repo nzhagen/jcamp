@@ -3,7 +3,6 @@
 
 from numpy import array, linspace, append, arange, logical_not, log10, nan
 import re
-from six import string_types
 import pdb
 
 '''
@@ -340,7 +339,7 @@ def is_float(s):
     '''
 
     if isinstance(s,tuple) or isinstance(s,list):
-        if not all(isinstance(i, string_types) for i in s):
+        if not all(isinstance(i, str) for i in s):
             raise TypeError("Input {} is not a list of strings".format(s))
         if (len(s) == 0):
             raise ValueError('Input {} is empty'.format(s))
