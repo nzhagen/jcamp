@@ -1,5 +1,5 @@
 import unittest
-from numpy import *
+from numpy import amin, amax, ndarray
 import os
 from jcamp import jcamp_calc_xsec, jcamp_readfile, jcamp_parse
 import pdb
