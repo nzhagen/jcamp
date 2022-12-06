@@ -1,13 +1,13 @@
 # -*- coding: UTF-8 -*-
 # See the LICENSE.rst file for licensing information.
 
-from numpy import array, linspace, append, arange, logical_not, log10, nan
+from numpy import array, append, arange, logical_not, log10, nan
 import re
 import pdb
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
-function `JCAMP_reader()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
+function `jcamp_readfile()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
 converts a given JCAMP-style data dictionary from absorption units to cross-section (m^2).
 
 The bottom of the file contains an example script, so that if the module is run by itself, it will show several
@@ -17,22 +17,15 @@ spectra plotted from data in repository folders.
 __authors__ = 'Nathan Hagen'
 __license__ = 'MIT/X11 License'
 __contact__ = 'Nathan Hagen <and.the.light.shattered@gmail.com>'
-__all__     = ['JCAMP_reader', 'JCAMP_calc_xsec', 'is_float']
+__all__     = ['jcamp_readfile', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse']
 
-SQZ_digits = {
-    '@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+6', 'G':'+7', 'H':'+8', 'I':'+9',
-    'a':'-1', 'b':'-2', 'c':'-3', 'd':'-4', 'e':'-5', 'f':'-6', 'g':'-7', 'h':'-8', 'i':'-9',
-    '+':'+', ## For PAC
-    '-':'-', ## For PAC
-    ',':' ', ## For CSV
-}
-DIF_digits = {
-    '%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q':8,  'R':9,
-            'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9,
-}
-DUP_digits = {
-    'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8, 's':9,
-}
+## In SQZ_digits, '+' or '-' is for PAC, ',' for CSV.
+SQZ_digits = {'@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+6', 'G':'+7', 'H':'+8', 'I':'+9',
+              'a':'-1', 'b':'-2', 'c':'-3', 'd':'-4', 'e':'-5', 'f':'-6', 'g':'-7', 'h':'-8', 'i':'-9',
+              '+':'+',  '-':'-',  ',':' '}
+DIF_digits = {'%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q':8,  'R':9,
+              'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9}
+DUP_digits = {'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8, 's':9}
 
 ##=====================================================================================================
 def jcamp_readfile(filename):
@@ -352,7 +345,7 @@ def is_float(s):
                     bool[i] = False
         return(bool)
     else:
-        if not isinstance(s, string_types):
+        if not isinstance(s, str):
             raise TypeError("Input '%s' is not a string" % (s))
 
         try:
@@ -438,13 +431,13 @@ def jcamp_parse(line):
 if (__name__ == '__main__'):
     import matplotlib.pyplot as plt
     filename = './data/infrared_spectra/ethylene.jdx'
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.plot(jcamp_dict['x'], jcamp_dict['y'])
     plt.title(filename)
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
-    JCAMP_calc_xsec(jcamp_dict, skip_nonquant=False, debug=False)
+    jcamp_calc_xsec(jcamp_dict, skip_nonquant=False, debug=False)
     plt.figure()
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
     plt.title(filename)
@@ -453,14 +446,14 @@ if (__name__ == '__main__'):
 
     filename = './data/uvvis_spectra/toluene.jdx'
     plt.figure()
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'r-')
     plt.title(filename)
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
     filename = './data/mass_spectra/ethanol_ms.jdx'
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.figure()
     for n in arange(len(jcamp_dict['x'])):
         plt.plot((jcamp_dict['x'][n],jcamp_dict['x'][n]), (0.0, jcamp_dict['y'][n]), 'm-', linewidth=2.0)
@@ -469,7 +462,7 @@ if (__name__ == '__main__'):
     plt.ylabel(jcamp_dict['yunits'])
 
     filename = './data/raman_spectra/tannic_acid.jdx'
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.figure()
     plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
     plt.title(filename)
@@ -477,7 +470,7 @@ if (__name__ == '__main__'):
     plt.ylabel(jcamp_dict['yunits'])
 
     filename = './data/neutron_scattering_spectra/emodine.jdx'
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.figure()
     plt.plot(jcamp_dict['x'], jcamp_dict['y'], 'k-')
     plt.title(filename)
@@ -485,7 +478,7 @@ if (__name__ == '__main__'):
     plt.ylabel(jcamp_dict['yunits'])
 
     filename = './data/infrared_spectra/example_compound_file.jdx'
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.figure()
     for c in jcamp_dict['children']:
         plt.plot(c['x'], c['y'])
@@ -494,7 +487,7 @@ if (__name__ == '__main__'):
     plt.title(filename)
 
     filename = './data/infrared_spectra/example_multiline_datasets.jdx'
-    jcamp_dict = JCAMP_reader(filename)
+    jcamp_dict = jcamp_readfile(filename)
     plt.figure()
     plt.plot(jcamp_dict['x'], jcamp_dict['y'])
     plt.title(filename)
