@@ -37,9 +37,8 @@ def jcamp_readfile(filename):
 ##=====================================================================================================
 def jcamp_read(filehandle):
     '''
-    Read a JDX-format file, and return a dictionary containing the header info, a 1D numpy vectors `x` for
-    the abscissa information (e.g. wavelength or wavenumber) and `y` for the ordinate information (e.g.
-    transmission).
+    Read a JDX-format file, and return a dictionary containing the header info, a 1D numpy vectors `x` for the
+    abscissa information (e.g. wavelength or wavenumber) and `y` for the ordinate information (e.g. transmission).
 
     Parameters
     ----------
