@@ -1,7 +1,7 @@
 import unittest
 from numpy import *
 import os
-from jcamp import JCAMP_calc_xsec, JCAMP_reader, jcamp_parse
+from jcamp import jcamp_calc_xsec, jcamp_readfile, jcamp_parse
 import pdb
 
 class TestJcamp(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestJcamp(unittest.TestCase):
         self.assertIsInstance(testdict['x'], ndarray)
         self.assertIsInstance(testdict['y'], ndarray)
         self.assertEqual(len(testdict['x']), len(testdict['y']))
-        if (alen(testdict['x']) > 0) and ('minx' in testdict):
+        if (len(testdict['x']) > 0) and ('minx' in testdict):
             #self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
             self.assertAlmostEqualRelative(amin(testdict['x']), testdict['minx'])
             self.assertAlmostEqualRelative(amin(testdict['y']), testdict['miny'])
@@ -34,35 +34,35 @@ class TestJcamp(unittest.TestCase):
         for root, dirs, files in os.walk("./data/infrared_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
-                jcamp_dict = JCAMP_reader(full_filename)
+                jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
     def test_read_raman(self):
         for root, dirs, files in os.walk("./data/raman_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
-                jcamp_dict = JCAMP_reader(full_filename)
+                jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
     def test_read_hnmr_spectra(self):
         for root, dirs, files in os.walk("./data/hnmr_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
-                jcamp_dict = JCAMP_reader(full_filename)
+                jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
     def test_read_uv(self):
         for root, dirs, files in os.walk("./data/uvvus_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
-                jcamp_dict = JCAMP_reader(full_filename)
+                jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
     def test_read_mass(self):
         for root, dirs, files in os.walk("./data/mass_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
-                jcamp_dict = JCAMP_reader(full_filename)
+                jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
     def test_line_parse(self):
@@ -93,9 +93,9 @@ class TestJcamp(unittest.TestCase):
         line = "A000J000JU%%"
         self.assertEqual(jcamp_parse(line), [1000, 2000, 2001, 2002, 2003, 2003, 2003])
 
-    def test_jcamp_reader_dict(self):
+    def test_jcamp_readfile_dict(self):
         filename = './data/infrared_spectra/methane.jdx'
-        jcamp_dict = JCAMP_reader(filename)
+        jcamp_dict = jcamp_readfile(filename)
         self.assertEqual(jcamp_dict['origin'], 'DOW CHEMICAL COMPANY')
         self.assertEqual(jcamp_dict['deltax'], 0.935748)
         self.assertEqual(jcamp_dict['sampling procedure'], 'TRANSMISSION')
@@ -133,8 +133,8 @@ class TestJcamp(unittest.TestCase):
 
     def test_jcamp_calc_xsec(self):
         filename = './data/infrared_spectra/methane.jdx'
-        jcamp_dict = JCAMP_reader(filename)
-        JCAMP_calc_xsec(jcamp_dict)
+        jcamp_dict = jcamp_readfile(filename)
+        jcamp_calc_xsec(jcamp_dict)
         self.assertTrue('xsec' in jcamp_dict)
 
 
