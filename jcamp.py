@@ -196,15 +196,14 @@ def jcamp_read(filehandle):
 ##=====================================================================================================
 def jcamp_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, debug=False):
     '''
-    Taking as input a JDX file, extract the spectrum information and transform the absorption spectrum
-    from existing units to absorption cross-section.
+    Taking as input a JDX file, extract the spectrum information and transform the absorption spectrum from existing
+    units to absorption cross-section.
 
-    This function also corrects for unphysical data (such as negative transmittance values, or
-    transmission above 1.0), and calculates absorbance if transmittance given. Instead of a return
-    value, the function inserts the information into the input dictionary.
+    This function also corrects for unphysical data (such as negative transmittance values, or transmission above
+    1.0), and calculates absorbance if transmittance given. Instead of a return value, the function inserts the
+    information into the input dictionary.
 
-    Note that the conversion assumes that the measurements were collected for gas at a temperature of
-    296K (23 degC).
+    Note that the conversion assumes that the measurements were collected for gas at a temperature of 296K (23 degC).
 
     Parameters
     ----------
@@ -215,8 +214,8 @@ def jcamp_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     wavemax : float, optional
         The longest wavelength in the spectrum to limit the calculation to.
     skip_nonquant: bool
-        If True then return "None" if the spectrum is missing quantitative data. If False, then try \
-        to fill in missing quantitative values with defaults.
+        If True then return "None" if the spectrum is missing quantitative data. If False, then try to fill in \
+        missing quantitative values with defaults.
     '''
 
     x = jcamp_dict['x']
@@ -481,7 +480,7 @@ if (__name__ == '__main__'):
     plt.figure()
     for c in jcamp_dict['children']:
         plt.plot(c['x'], c['y'])
-    plt.xlabel(jcamp_dict['children'][0]['xunits'])  # assume all blocks have the same units
+    plt.xlabel(jcamp_dict['children'][0]['xunits'])  ## assume all blocks have the same units
     plt.ylabel(jcamp_dict['children'][0]['yunits'])
     plt.title(filename)
 
