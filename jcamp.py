@@ -113,7 +113,7 @@ def jcamp_read(filehandle):
                 is_compound = True
                 jcamp_dict['children'] = []
 
-            if (lhs in ('xydata','xypoints','peak table')):
+            if (lhs in ('xydata', 'xypoints', 'peak table')):
                 ## This is a new data entry, reset x and y.
                 x = []
                 y = []
@@ -121,7 +121,7 @@ def jcamp_read(filehandle):
                 datatype = rhs
                 continue        ## data starts on next line
             elif (lhs == 'end'):
-                bounds = [int(i) for i   in re_num.findall(rhs)]
+                bounds = [int(i) for i in re_num.findall(rhs)]
                 datastart = True
                 datatype = bounds
                 datalist = []
@@ -228,14 +228,14 @@ def jcamp_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
     ## rescaled in order to compensate. But this is only true if we resample the abscissa to a uniform sampling
     ## grid. In this case here, we keep the sampling grid nonuniform in wavelength space, such that each digital
     ## bin retains its proportionality to energy, which is what we want.
-    if (jcamp_dict['xunits'].lower() in ('1/cm','cm-1','cm^-1')):
+    if (jcamp_dict['xunits'].lower() in ('1/cm', 'cm-1', 'cm^-1')):
         jcamp_dict['wavenumbers'] = array(x)            ## note that array() always performs a copy
         x = 10000.0 / x
         jcamp_dict['wavelengths'] = x
-    elif (jcamp_dict['xunits'].lower() in ('micrometers','um','wavelength (um)')):
+    elif (jcamp_dict['xunits'].lower() in ('micrometers', 'um', 'wavelength (um)')):
         jcamp_dict['wavelengths'] = x
         jcamp_dict['wavenumbers'] = 10000.0 / x
-    elif (jcamp_dict['xunits'].lower() in ('nanometers','nm','wavelength (nm)')):
+    elif (jcamp_dict['xunits'].lower() in ('nanometers', 'nm', 'wavelength (nm)')):
         x = x * 1000.0
         jcamp_dict['wavelengths'] = x
         jcamp_dict['wavenumbers'] = 10000.0 / x
