@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 # See the LICENSE.rst file for licensing information.
 
+import datetime
 from numpy import array, append, arange, logical_not, log10, nan
 import re
 import pdb
@@ -26,6 +27,18 @@ SQZ_digits = {'@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+
 DIF_digits = {'%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q':8,  'R':9,
               'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9}
 DUP_digits = {'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8, 's':9}
+# The specification allows multiple formats for representing LONGDATE.
+# See `FRACTIONAL_SECONDS_PATTERN` below for the optional token representing fractional seconds.
+# These fractional seconds are removed in advance.
+# Thus `%N` is not referenced in the formats below.
+DATE_FORMATS = ["%Y/%m/%d %H:%M:%S %z", "%Y/%m/%d %H:%M:%S", "%Y/%m/%d"]
+# The optional token describing the fractional seconds is referenced in the specification as
+# `.SSSS`.
+# This number of digits (four) is rather unclear, since the usual presentation of a fraction of
+# seconds would contain either 3, 6 or 9 digits.
+FRACTIONAL_SECONDS_PATTERN = re.compile(
+    r"^\d{4}/\d{2}/\d{2} +\d{2}:\d{2}\d{2}(?P<fractional_seconds>\d{1,9})"
+)
 
 ##=====================================================================================================
 def jcamp_readfile(filename):
@@ -33,6 +46,49 @@ def jcamp_readfile(filename):
         data = jcamp_read(filehandle)
     data['filename'] = filename
     return(data)
+
+##=====================================================================================================
+def _parse_longdate(date_string: str) -> datetime.datetime:
+    """parse the "LONGDATE" field according to the JCAMP-DX specification
+
+    raises ValueError in case of problems
+    """
+    fractional_seconds_match = FRACTIONAL_SECONDS_PATTERN.search(date_string)
+    if fractional_seconds_match:
+        # remove the fractional seconds string - it would complicate `strptime`
+        date_string = FRACTIONAL_SECONDS_PATTERN.sub("", date_string)
+        # try to interprete the fractional seconds
+        # Saldy the specification (v6.00) does not explain, how a string of arbitrary
+        # length is supposed to be interpreted.
+        # Thus we are just guessing based on the number of digits.
+        fraction_seconds_string = fractional_seconds_match.group("fractional_seconds")
+        if len(fraction_seconds_string) in {7, 8, 9}:
+            # nanoseconds
+            microseconds = int(int(fraction_seconds_string) / 1000)
+        elif len(fraction_seconds_string) in {4, 5, 6}:
+            microseconds = int(fraction_seconds_string)
+        elif len(fraction_seconds_string) in {1, 2, 3}:
+            microseconds = 1000 * int(fraction_seconds_string)
+        else:
+            # we should never end here
+            raise ValueError(
+                "Fractional seconds string could not be parsed: {}".format(
+                    fraction_seconds_string
+                )
+            )
+    else:
+        microseconds = 0
+    # parse the date and time
+    for fmt in DATE_FORMATS:
+        try:
+            parsed = datetime.datetime.strptime(date_string, fmt)
+        except ValueError:
+            pass
+        else:
+            # inject the previously parsed microseconds
+            return parsed.replace(microsecond=microseconds)
+    else:
+        raise ValueError("Faild to parse the date string: {}".format(date_string))
 
 ##=====================================================================================================
 def jcamp_read(filehandle):
@@ -126,6 +182,15 @@ def jcamp_read(filehandle):
                 datatype = bounds
                 datalist = []
                 continue
+            elif lhs == 'longdate':
+                try:
+                    parsed = _parse_longdate(jcamp_dict[lhs])
+                except ValueError:
+                    # keep the original date string
+                    pass
+                else:
+                    # replace the string with the datetime object
+                    jcamp_dict[lhs] = parsed
             elif datastart:
                 datastart = False
         elif lhs is not None and not datastart:  # multiline entry
