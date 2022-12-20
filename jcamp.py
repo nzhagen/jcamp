@@ -236,7 +236,7 @@ def jcamp_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         jcamp_dict['wavelengths'] = x
         jcamp_dict['wavenumbers'] = 10000.0 / x
     elif (jcamp_dict['xunits'].lower() in ('nanometers', 'nm', 'wavelength (nm)')):
-        x = x * 1000.0
+        x = x / 1000.0
         jcamp_dict['wavelengths'] = x
         jcamp_dict['wavenumbers'] = 10000.0 / x
     else:
