@@ -24,7 +24,7 @@ pip install --upgrade jcamp
 
 ## Parsing a file
 
-The `JCAMP_reader()` function takes a filename as input, and returns a dictionary containing the data found in the file.
+The `jcamp_reader()` function takes a filename as input, and returns a dictionary containing the data found in the file.
 Specifically, the keys contained in the dictionary are:
 
 1. The field names found in the file's header, with values being int- or float-type if the corresponding field is a numerical type, or a string-type otherwise.
@@ -35,8 +35,8 @@ The units of `x` and `y` are whatever are indicated in the header fields `xunits
 If the input is a compound file, then the returned dictionary will contain a `children` field.
 This field is an array of dictionaries that each represent a block.
 
-The `JCAMP_calc_xsec()` function is intended to takes as input the result of the `JCAMP_reader()` function and to convert the `x` data to wavelength in microns, and the `y` data to cross-section in units of m^2 for gas concentration of 1ppm at standard atmospheric pressure and temperature, across a path length of 1 meter.
-The `JCAMP_calc_xsec()` function takes as input the data dictionary `jcamp_dict`, and manipulates that dictionary directly without having a separate return value.
+The `jcamp_calc_xsec()` function is intended to takes as input the result of the `jcamp_reader()` function and to convert the `x` data to wavelength in microns, and the `y` data to cross-section in units of m^2 for gas concentration of 1ppm at standard atmospheric pressure and temperature, across a path length of 1 meter.
+The `jcamp_calc_xsec()` function takes as input the data dictionary `jcamp_dict`, and manipulates that dictionary directly without having a separate return value.
 Changes to the dictionary may including adding the fields:
 
 * wavelengths: the array of wavelength values (in microns) for each data point

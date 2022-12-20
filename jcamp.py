@@ -7,7 +7,7 @@ import pdb
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
-function `jcamp_readfile()` formats the input file into a Python dictionary, while `JCAMP_calc_xsec()`
+function `jcamp_readfile()` formats the input file into a Python dictionary, while `jcamp_calc_xsec()`
 converts a given JCAMP-style data dictionary from absorption units to cross-section (m^2).
 
 The bottom of the file contains an example script, so that if the module is run by itself, it will show several
