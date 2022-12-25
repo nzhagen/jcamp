@@ -18,8 +18,8 @@ spectra plotted from data in repository folders.
 __authors__ = 'Nathan Hagen'
 __license__ = 'MIT/X11 License'
 __contact__ = 'Nathan Hagen <and.the.light.shattered@gmail.com>'
-__all__     = ['jcamp_readfile', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse']
-__version__ = '1.2.1'
+__all__     = ['jcamp_readfile', '_parse_longdate', 'jcamp_read', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse']
+__version__ = '1.2.2'
 
 ## In SQZ_digits, '+' or '-' is for PAC, ',' for CSV.
 SQZ_digits = {'@':'+0', 'A':'+1', 'B':'+2', 'C':'+3', 'D':'+4', 'E':'+5', 'F':'+6', 'G':'+7', 'H':'+8', 'I':'+9',
