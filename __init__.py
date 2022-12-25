@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-##
-# __init__.py: Initialization
 
+from jcamp import *
 
-
-## IMPORTS ####################################################################
-from jcamp import * 
+__version__ = "1.2.2"
+__author__ = 'Nathan Hagen'

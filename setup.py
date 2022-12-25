@@ -7,26 +7,23 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the relevant file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
-    
+
 setup(
     name="jcamp",
     py_modules=["jcamp"],
-    version="1.2.1",
+    version="1.2.2",
     description="JCAMP-DX file reader",
     long_description = long_description,         ## from above
     author="Nathan Hagen",
-    author_email="nhagen@optics.arizona.edu",
+    author_email="and.the.light.shattered@gmail.com",
     url="https://github.com/nzhagen/jcamp",
     download_url="https://github.com/nzhagen/jcamp",
-    install_requires=[
-        'numpy',
-    ],
+    install_requires=['numpy','datetime'],
     test_suite='tests',
     tests_require=['tox', 'coverage'],
     keywords=["jcamp", "jcamp-dx", "spectra"],
     classifiers=[
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3",
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
