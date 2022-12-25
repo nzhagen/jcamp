@@ -75,6 +75,13 @@ data_dict = jcamp_read(content)
 ```
 
 
+## Contributing
+
+Your contributions and hints are welcome.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+
 ## License
 
 `jcamp` is licensed under the MIT License - see the [LICENSE.txt](./LICENSE.txt) file for details
