@@ -449,7 +449,7 @@ def jcamp_parse(line):
             if (c in DUP_digits):
                 prev_c = line[i-1]
                 mul = DUP_digits[c]
-                newline += prev_c*mul
+                newline += prev_c * (mul-1)
             else:
                 mul = ''
                 newline += c
