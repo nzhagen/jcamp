@@ -281,8 +281,8 @@ def jcamp_calc_xsec(jcamp_dict, wavemin=None, wavemax=None, skip_nonquant=True, 
         missing quantitative values with defaults.
     '''
 
-    x = jcamp_dict['x']
-    y = jcamp_dict['y']
+    x = array(jcamp_dict['x'])  ## use 'array' to force a copy so that we cannot change the original data
+    y = array(jcamp_dict['y'])  ## use 'array' to force a copy so that we cannot change the original data
 
     T = 296.0            ## the temperature (23 degC) used by NIST when collecting spectra
     R = 1.0355E-25       ## the constant for converting data (includes the gas constant)
