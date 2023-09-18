@@ -75,6 +75,12 @@ data_dict = jcamp_read(content)
 ```
 
 
+## Writing JCAMP-DX format files
+
+The `jcamp_writefile()` function is used to write out a file given an input data dictionary. Note that the dictionary must have two required entries: `x` and `y`, giving the primary data to write. The remainder of the dictionary is written into the file header.
+
+The core of the `jcamp_writefile()` function is the `jcamp_write()` function, which converts the input data dictionary to a long string, while the `jcamp_writefile()` function simply takes that string an writes it to a file. The reason for separating the two here is that it allows one to use the writing functions independent of files, or of directly exporting JCAMP-DX formats to software tools that take such strings as input.
+
 ## Contributing
 
 Your contributions and hints are welcome.
