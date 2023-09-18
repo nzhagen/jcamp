@@ -2,7 +2,7 @@
 # See the LICENSE.rst file for licensing information.
 
 import datetime
-from numpy import array, append, arange, logical_not, log10, nan
+from numpy import array, append, arange, logical_not, log10, nan, isnan
 import re
 import pdb
 
@@ -18,7 +18,8 @@ spectra plotted from data in repository folders.
 __authors__ = 'Nathan Hagen'
 __license__ = 'MIT/X11 License'
 __contact__ = 'Nathan Hagen <and.the.light.shattered@gmail.com>'
-__all__     = ['jcamp_readfile', 'parse_longdate', 'jcamp_read', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse']
+__all__     = ['jcamp_readfile', 'parse_longdate', 'jcamp_read', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse',
+               'jcamp_writefile', 'jcamp_write']
 __version__ = '1.2.2'
 
 ## In SQZ_digits, '+' or '-' is for PAC, ',' for CSV.
@@ -500,6 +501,117 @@ def jcamp_parse(line):
 
     return(datavals)
 
+##=====================================================================================================
+def jcamp_writefile(filename, jcamp_dict_input, linewidth=75):
+    '''
+    Write a JDX-format file for a given data dictionary.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the JCAMP-DX file to write.
+    jcamp_dict : dict
+        The input dictionary to write.
+    linewidth : int, optional
+        The maximum line width to allow when writing data lines.
+    '''
+
+    ## Explicitly copy the input dictionary so that changes are not reflected in the input.
+    jcamp_dict = dict(jcamp_dict_input)
+    jcamp_dict['filename'] = filename
+
+    with open(filename, 'w') as filehandle:
+        jcamp_str = jcamp_write(jcamp_dict, linewidth=linewidth)
+        filehandle.write(jcamp_str)
+    return
+
+##=====================================================================================================
+def jcamp_write(jcamp_dict, linewidth=75):
+    '''
+    Convert a dictionary into a JDX-format string for easy writing to a file. At a minimum, the input dictionary must
+    contain the keys 'x' and 'y' for the data, and these two vectors must have the same length.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the JCAMP-DX file to write.
+    jcamp_dict : dict
+        The input dictionary to write.
+    linewidth : int, optional
+        The maximum line width to allow when writing data lines.
+
+    Returns
+    ----------
+    jcamp_str : str
+        The JCAMP_DX formatted string containing the input dictionary's information.
+    '''
+
+    if ('x' not in jcamp_dict):
+        raise ValueError('The input dictionary *must* have an "x" variable for writing to a JCAMP file.')
+    if ('y' not in jcamp_dict):
+        raise ValueError('The input dictionary *must* have a "y" variable for writing to a JCAMP file.')
+
+    js = ''
+
+    # Writes first lines
+    js += "##JCAMP-DX=5.01\n"
+
+    ## First write out the header.
+    for key in jcamp_dict:
+        if key in ('x','y','xydata','end'):
+            continue
+
+        js += f"##{key.upper()}={str(jcamp_dict[key])}\n"
+
+    ## Determine whether the spectra have a title and a datetime field in the labels, by default, the title if any will
+    ## be is the first string; the timestamp will be the fist datetime.datetime.
+    x = jcamp_dict['x']
+    y = jcamp_dict['y']
+
+    if 'firstx' not in jcamp_dict:
+        js += f"##FIRSTX={jcamp_dict['x'][0]:.6f}\n"
+    if 'lastx' not in jcamp_dict:
+        js += f"##LASTX={jcamp_dict['x'][-1]:.6f}\n"
+    if 'maxx' not in jcamp_dict:
+        js += f"##MAXX={amax(jcamp_dict['x']):.6f}\n"
+    if 'minx' not in jcamp_dict:
+        js += f"##MINX={amin(jcamp_dict['x']):.6f}\n"
+
+    if 'firsty' not in jcamp_dict:
+        js += f"##FIRSTY={jcamp_dict['y'][0]:.4f}\n"
+    if 'lasty' not in jcamp_dict:
+        js += f"##LASTY={jcamp_dict['y'][-1]:.4f}\n"
+    if 'maxy' not in jcamp_dict:
+        js += f"##MAXY={amax(jcamp_dict['y']):.4f}\n"
+    if 'miny' not in jcamp_dict:
+        js += f"##MINY={amin(jcamp_dict['y']):.4f}\n"
+
+    npts = len(jcamp_dict['x'])
+    if 'npoints' not in jcamp_dict:
+        js += f"##NPOINTS={npts}\n"
+
+    js += "##XYDATA=(X++(Y..Y))\n"
+
+    yfactor = 1.0
+    if 'yfactor' in jcamp_dict:
+        yfactor = jcamp_dict['yfactor']
+
+    line = f"{jcamp_dict['x'][0]:.6f} "
+    for j in arange(npts):
+        if isnan(jcamp_dict['y'][j]):
+            line += '? '
+        else:
+            line += f"{jcamp_dict['y'][j] / yfactor:.4f} "
+
+        print(npts-1, j, linewidth, len(line), f'"{line}"')
+        if (len(line) >= linewidth) or (j == npts-1):
+            js += line + '\n'
+            if (j < npts-1):
+                line = f"{jcamp_dict['x'][j+1]:.6f} "
+
+    js += '##END=\n'
+    return(js)
+
 ## =================================================================================================
 ## =================================================================================================
 
@@ -512,6 +624,10 @@ if (__name__ == '__main__'):
     plt.xlabel(jcamp_dict['xunits'])
     plt.ylabel(jcamp_dict['yunits'])
 
+    ## Example of writing a Python/Numpy dictionary to a JCAMP-DX file.
+    jcamp_writefile('temp.jdx', jcamp_dict, linewidth=45)
+
+    ## Example of converting an optical spectrum into absorption cross-section units.
     jcamp_calc_xsec(jcamp_dict, skip_nonquant=False, debug=False)
     plt.figure()
     plt.plot(jcamp_dict['wavelengths'], jcamp_dict['xsec'])
