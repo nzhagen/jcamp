@@ -43,10 +43,24 @@ FRACTIONAL_SECONDS_PATTERN = re.compile(
 
 ##=====================================================================================================
 def jcamp_readfile(filename):
+    '''
+    Open a JDX-format file for reading, and call `jcamp_read` to parse it into a dictionary.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the JCAMP-DX file to read.
+
+    Returns
+    -------
+    datadict : dict
+        The dictionary containing the file information --- header and data both.
+    '''
+
     with open(filename, 'rb') as filehandle:
-        data = jcamp_read(filehandle)
-    data['filename'] = filename
-    return(data)
+        datadict = jcamp_read(filehandle)
+    datadict['filename'] = filename
+    return(datadict)
 
 ##=====================================================================================================
 def _parse_longdate(date_string: str) -> datetime.datetime:
@@ -96,7 +110,7 @@ def jcamp_read(filehandle):
 
     Parameters
     ----------
-    filehandle : str
+    filehandle : file object
         The object representing the JCAMP-DX filename to read.
 
     Returns
