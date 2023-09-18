@@ -18,7 +18,7 @@ spectra plotted from data in repository folders.
 __authors__ = 'Nathan Hagen'
 __license__ = 'MIT/X11 License'
 __contact__ = 'Nathan Hagen <and.the.light.shattered@gmail.com>'
-__all__     = ['jcamp_readfile', '_parse_longdate', 'jcamp_read', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse']
+__all__     = ['jcamp_readfile', 'parse_longdate', 'jcamp_read', 'jcamp_calc_xsec', 'is_float', 'get_value', 'jcamp_parse']
 __version__ = '1.2.2'
 
 ## In SQZ_digits, '+' or '-' is for PAC, ',' for CSV.
@@ -63,7 +63,7 @@ def jcamp_readfile(filename):
     return(datadict)
 
 ##=====================================================================================================
-def _parse_longdate(date_string: str) -> datetime.datetime:
+def parse_longdate(date_string: str) -> datetime.datetime:
     """parse the "LONGDATE" field according to the JCAMP-DX specification
 
     raises ValueError in case of problems
@@ -196,7 +196,7 @@ def jcamp_read(filehandle):
                 continue
             elif lhs == 'longdate':
                 try:
-                    parsed = _parse_longdate(jcamp_dict[lhs])
+                    parsed = parse_longdate(jcamp_dict[lhs])
                 except ValueError:
                     # Keep the original date string.
                     pass
