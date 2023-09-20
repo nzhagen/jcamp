@@ -553,9 +553,6 @@ def jcamp_write(jcamp_dict, linewidth=75):
 
     js = ''
 
-    # Writes first lines
-    js += "##JCAMP-DX=5.01\n"
-
     ## First write out the header.
     for key in jcamp_dict:
         if key in ('x','y','xydata','end'):
