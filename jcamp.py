@@ -452,9 +452,11 @@ def jcamp_parse(line):
     line = ' '.join(line.split())
 
     ## If there are any coded digits, then replace the codes with the appropriate numbers.
-    ## 'DUP_digits' are characters that represent how many times the previous character should be replicated.
-    ## 'DIF_digits' represent ...?
-    ## 'SQZ_digits' represent ...?
+    ## 'DUP_digits': ("duplicate suppression") replaces all but first value if two or more adjacent y-values
+    #                are identical
+    ## 'DIF_digits': ("difference form") replace delimiter, leading digit and sign of the difference between
+    ##               adjacent values
+    ## 'SQZ_digits': ("squeezed form") replace delimiter, leading digit and sign
     DUP_set = set(DUP_digits)
 
     if any(c in DUP_set for c in line):
@@ -462,7 +464,12 @@ def jcamp_parse(line):
         newline = ''
         for (i,c) in enumerate(line):
             if (c in DUP_digits):
-                prev_c = line[i-1]
+                # check for last DIF_digit which is start of last y-value by default, 
+                # so that all characters belonging to last value is fully decompressed by DUP compression.
+                back = 1
+                while line[i-back] not in DIF_digits:
+                    back += 1
+                prev_c = line[i-back:i]
                 mul = DUP_digits[c]
                 newline += prev_c * (mul-1)
             else:
