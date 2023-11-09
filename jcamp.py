@@ -505,9 +505,9 @@ def jcamp_parse(line):
                 # check for last DIF_digit which is start of last y-value by default, 
                 # so that all characters belonging to last value is fully decompressed by DUP compression.
                 back = 1
-                while line[i - back] not in DIF_digits:
+                while line[i-back] not in DIF_digits:
                     back += 1
-                prev_c = line[i - back : i]
+                prev_c = line[i-back:i]
                 mul = DUP_digits[c]
                 newline += prev_c * (mul-1)
             else:
