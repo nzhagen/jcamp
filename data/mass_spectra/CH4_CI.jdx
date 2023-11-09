@@ -1,12 +1,16 @@
 ##TITLE= 1
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 512
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__ribitol_29032010_1.qgd
 ##CAS NAME= ribitol
 ##$RETENTION INDEX= 1723
+##XFACTOR= 1
+##YFACTOR= 1
+##FIRSTX= 73
+##LASTX= 515
 ##NPOINTS= 50
 ##XYDATA= (XY..XY)
 73.00,208
@@ -63,7 +67,7 @@
 ##TITLE= 2
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 612
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__muco allo scyllo inositol_29032010_2.qgd
@@ -125,7 +129,7 @@
 ##TITLE= 3
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 612
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__muco allo scyllo inositol_29032010_2.qgd
@@ -187,7 +191,7 @@
 ##TITLE= 4
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 612
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__muco allo scyllo inositol_29032010_2.qgd
@@ -249,7 +253,7 @@
 ##TITLE= 5
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 524
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__proto epi vibo quercitol_29032010_3.qgd
@@ -311,7 +315,7 @@
 ##TITLE= 6
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 524
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__proto epi vibo quercitol_29032010_3.qgd
@@ -373,7 +377,7 @@
 ##TITLE= 7
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 524
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__proto epi vibo quercitol_29032010_3.qgd
@@ -435,7 +439,7 @@
 ##TITLE= 8
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 1297
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__raffinose_29032010_4.qgd
@@ -497,7 +501,7 @@
 ##TITLE= 9
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 201
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__amygdalin pipecolate_29032010_5.qgd
@@ -559,7 +563,7 @@
 ##TITLE= 10
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 273
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__amygdalin pipecolate_29032010_5.qgd
@@ -621,7 +625,7 @@
 ##TITLE= 11
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__amygdalin pipecolate_29032010_5.qgd
@@ -683,7 +687,7 @@
 ##TITLE= 12
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 990
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__galactinol_29032010_6.qgd
@@ -745,7 +749,7 @@
 ##TITLE= 13
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 632
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__arbutin_29032010_7.qgd
@@ -807,7 +811,7 @@
 ##TITLE= 14
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 554
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__myoinosit chiroinositol pinitol_29032010_8.qgd
@@ -869,7 +873,7 @@
 ##TITLE= 15
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 612
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__myoinosit chiroinositol pinitol_29032010_8.qgd
@@ -931,7 +935,7 @@
 ##TITLE= 16
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 612
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__myoinosit chiroinositol pinitol_29032010_8.qgd
@@ -993,7 +997,7 @@
 ##TITLE= 17
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 992
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__lactitol_29032010_9.qgd
@@ -1055,7 +1059,7 @@
 ##TITLE= 18
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 650
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__catechin_29032010_10.qgd
@@ -1117,7 +1121,7 @@
 ##TITLE= 19
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 277
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__4 amines_26032010_6.qgd
@@ -1179,7 +1183,7 @@
 ##TITLE= 20
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 308
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__4 amines_26032010_6.qgd
@@ -1241,7 +1245,7 @@
 ##TITLE= 21
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 376
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__4 amines_26032010_6.qgd
@@ -1303,7 +1307,7 @@
 ##TITLE= 22
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 433
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__4 amines_26032010_6.qgd
@@ -1365,7 +1369,7 @@
 ##TITLE= 23
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 505
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__4 amines_26032010_6.qgd
@@ -1427,7 +1431,7 @@
 ##TITLE= 24
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 314
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__3 sugar P_26032010_5.qgd
@@ -1489,7 +1493,7 @@
 ##TITLE= 25
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 721
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__3 sugar P_26032010_5.qgd
@@ -1551,7 +1555,7 @@
 ##TITLE= 26
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 721
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__3 sugar P_26032010_5.qgd
@@ -1613,7 +1617,7 @@
 ##TITLE= 27
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 721
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__3 sugar P_26032010_5.qgd
@@ -1675,7 +1679,7 @@
 ##TITLE= 28
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 467
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -1737,7 +1741,7 @@
 ##TITLE= 29
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 467
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -1799,7 +1803,7 @@
 ##TITLE= 30
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 467
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -1861,7 +1865,7 @@
 ##TITLE= 31
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 467
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -1923,7 +1927,7 @@
 ##TITLE= 32
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -1985,7 +1989,7 @@
 ##TITLE= 33
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2047,7 +2051,7 @@
 ##TITLE= 34
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2109,7 +2113,7 @@
 ##TITLE= 35
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2171,7 +2175,7 @@
 ##TITLE= 36
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2233,7 +2237,7 @@
 ##TITLE= 37
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2295,7 +2299,7 @@
 ##TITLE= 38
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2357,7 +2361,7 @@
 ##TITLE= 39
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 569
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2419,7 +2423,7 @@
 ##TITLE= 40
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 947
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2481,7 +2485,7 @@
 ##TITLE= 41
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 947
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2537,7 +2541,7 @@
 ##TITLE= 42
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 918
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar_26032010_4.qgd
@@ -2599,7 +2603,7 @@
 ##TITLE= 43
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 512
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar alc_26032010_3.qgd
@@ -2661,7 +2665,7 @@
 ##TITLE= 44
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 512
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar alc_26032010_3.qgd
@@ -2723,7 +2727,7 @@
 ##TITLE= 45
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 614
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar alc_26032010_3.qgd
@@ -2785,7 +2789,7 @@
 ##TITLE= 46
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 614
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar alc_26032010_3.qgd
@@ -2847,7 +2851,7 @@
 ##TITLE= 47
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 614
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar alc_26032010_3.qgd
@@ -2909,7 +2913,7 @@
 ##TITLE= 48
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 992
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__9 sugar alc_26032010_3.qgd
@@ -2971,7 +2975,7 @@
 ##TITLE= 49
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 320
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3033,7 +3037,7 @@
 ##TITLE= 50
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 194
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3095,7 +3099,7 @@
 ##TITLE= 51
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 195
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3157,7 +3161,7 @@
 ##TITLE= 52
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 260
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3219,7 +3223,7 @@
 ##TITLE= 53
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 262
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3281,7 +3285,7 @@
 ##TITLE= 54
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 260
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3343,7 +3347,7 @@
 ##TITLE= 55
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 306
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3405,7 +3409,7 @@
 ##TITLE= 56
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 276
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3467,7 +3471,7 @@
 ##TITLE= 57
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 350
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3529,7 +3533,7 @@
 ##TITLE= 58
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 290
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3591,7 +3595,7 @@
 ##TITLE= 59
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 220
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3653,7 +3657,7 @@
 ##TITLE= 60
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 319
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3715,7 +3719,7 @@
 ##TITLE= 61
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 438
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3777,7 +3781,7 @@
 ##TITLE= 62
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 462
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3839,7 +3843,7 @@
 ##TITLE= 63
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 480
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3901,7 +3905,7 @@
 ##TITLE= 64
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 552
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -3963,7 +3967,7 @@
 ##TITLE= 65
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 458
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -4025,7 +4029,7 @@
 ##TITLE= 66
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 338
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__23 org acids_26032010_2.qgd
@@ -4087,7 +4091,7 @@
 ##TITLE= 67
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 410
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__threitol_29032010_11.qgd
@@ -4149,7 +4153,7 @@
 ##TITLE= 68
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 738
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP5_30032010_2.qgd
@@ -4211,7 +4215,7 @@
 ##TITLE= 69
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 410
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4273,7 +4277,7 @@
 ##TITLE= 70
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 424
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4335,7 +4339,7 @@
 ##TITLE= 71
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 424
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4397,7 +4401,7 @@
 ##TITLE= 72
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4459,7 +4463,7 @@
 ##TITLE= 73
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4521,7 +4525,7 @@
 ##TITLE= 74
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4583,7 +4587,7 @@
 ##TITLE= 75
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4645,7 +4649,7 @@
 ##TITLE= 76
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4707,7 +4711,7 @@
 ##TITLE= 77
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4769,7 +4773,7 @@
 ##TITLE= 78
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4831,7 +4835,7 @@
 ##TITLE= 79
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 671
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__DP8_30032010_4.qgd
@@ -4893,7 +4897,7 @@
 ##TITLE= 80
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 0
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__EA2_30032010_7.qgd
@@ -4955,7 +4959,7 @@
 ##TITLE= 81
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 554
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__EA3_30032010_8.qgd
@@ -5008,7 +5012,7 @@
 ##TITLE= 82
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 642
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\CHARLIE\methane CI march 2010\CI__EA3_30032010_8.qgd
@@ -5070,7 +5074,7 @@
 ##TITLE= 83
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 189
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5132,7 +5136,7 @@
 ##TITLE= 84
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 233
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5194,7 +5198,7 @@
 ##TITLE= 85
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 219
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5256,7 +5260,7 @@
 ##TITLE= 86
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 203
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5318,7 +5322,7 @@
 ##TITLE= 87
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 187
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5380,7 +5384,7 @@
 ##TITLE= 88
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 203
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5442,7 +5446,7 @@
 ##TITLE= 89
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 261
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5504,7 +5508,7 @@
 ##TITLE= 90
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 249
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5566,7 +5570,7 @@
 ##TITLE= 91
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 275
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5628,7 +5632,7 @@
 ##TITLE= 92
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 275
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5690,7 +5694,7 @@
 ##TITLE= 93
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 263
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5752,7 +5756,7 @@
 ##TITLE= 94
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 259
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5814,7 +5818,7 @@
 ##TITLE= 95
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 291
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5876,7 +5880,7 @@
 ##TITLE= 96
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 321
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -5938,7 +5942,7 @@
 ##TITLE= 97
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 335
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6000,7 +6004,7 @@
 ##TITLE= 98
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 221
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6062,7 +6066,7 @@
 ##TITLE= 99
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 277
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6124,7 +6128,7 @@
 ##TITLE= 100
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 275
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6186,7 +6190,7 @@
 ##TITLE= 101
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 349
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6248,7 +6252,7 @@
 ##TITLE= 102
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 293
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6310,7 +6314,7 @@
 ##TITLE= 103
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 273
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6372,7 +6376,7 @@
 ##TITLE= 104
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 347
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6434,7 +6438,7 @@
 ##TITLE= 105
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 319
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6496,7 +6500,7 @@
 ##TITLE= 106
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 291
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6558,7 +6562,7 @@
 ##TITLE= 107
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 237
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6620,7 +6624,7 @@
 ##TITLE= 108
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 337
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6682,7 +6686,7 @@
 ##TITLE= 109
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 363
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6744,7 +6748,7 @@
 ##TITLE= 110
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 309
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6806,7 +6810,7 @@
 ##TITLE= 111
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 391
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6868,7 +6872,7 @@
 ##TITLE= 112
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 348
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6930,7 +6934,7 @@
 ##TITLE= 113
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 420
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -6992,7 +6996,7 @@
 ##TITLE= 114
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 362
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -7054,7 +7058,7 @@
 ##TITLE= 115
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 325
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -7116,7 +7120,7 @@
 ##TITLE= 116
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 434
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -7178,7 +7182,7 @@
 ##TITLE= 117
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 397
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -7240,7 +7244,7 @@
 ##TITLE= 118
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 348
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_amino mix_30082010_3.qgd
@@ -7302,7 +7306,7 @@
 ##TITLE= 119
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 786
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_CH4__esocialis_3092010_1.qgd
@@ -7364,7 +7368,7 @@
 ##TITLE= 120
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 786
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_CH4__esocialis_3092010_1.qgd
@@ -7426,7 +7430,7 @@
 ##TITLE= 121
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 554
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_CH4__callitris_3092010_2.qgd
@@ -7488,7 +7492,7 @@
 ##TITLE= 122
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 780
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\TMS_stds_1ug_sugar phosphates_31082010_11.qgd
@@ -7550,7 +7554,7 @@
 ##TITLE= 123
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 480
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_isocitric mucic_19052011_2.qgd
@@ -7612,7 +7616,7 @@
 ##TITLE= 124
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 642
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_isocitric mucic_19052011_2.qgd
@@ -7674,7 +7678,7 @@
 ##TITLE= 125
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 466
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_gluconic_19052011_3.qgd
@@ -7736,7 +7740,7 @@
 ##TITLE= 126
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 628
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_gluconic_19052011_3.qgd
@@ -7798,7 +7802,7 @@
 ##TITLE= 127
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 204
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_tyramine phenylethylamine urea_19052011_6.qgd
@@ -7860,7 +7864,7 @@
 ##TITLE= 128
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 265
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_tyramine phenylethylamine urea_19052011_6.qgd
@@ -7922,7 +7926,7 @@
 ##TITLE= 129
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 353
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_tyramine phenylethylamine urea_19052011_6.qgd
@@ -7984,7 +7988,7 @@
 ##TITLE= 130
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 468
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_ergosterol aminolev aconictic_19052011_7.qgd
@@ -8046,7 +8050,7 @@
 ##TITLE= 131
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 390
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_ergosterol aminolev aconictic_19052011_7.qgd
@@ -8108,7 +8112,7 @@
 ##TITLE= 132
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 376
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_ergosterol aminolev aconictic_19052011_7.qgd
@@ -8170,7 +8174,7 @@
 ##TITLE= 133
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 376
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_ergosterol aminolev aconictic_19052011_7.qgd
@@ -8232,7 +8236,7 @@
 ##TITLE= 134
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 305
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_sinapic galactur B-ala_19052011_8.qgd
@@ -8294,7 +8298,7 @@
 ##TITLE= 135
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 368
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_sinapic galactur B-ala_19052011_8.qgd
@@ -8356,7 +8360,7 @@
 ##TITLE= 136
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 583
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_sinapic galactur B-ala_19052011_8.qgd
@@ -8418,7 +8422,7 @@
 ##TITLE= 137
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 583
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_sinapic galactur B-ala_19052011_8.qgd
@@ -8480,7 +8484,7 @@
 ##TITLE= 138
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 312
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_glucoheptose coumaric vanillic_19052011_9.qgd
@@ -8542,7 +8546,7 @@
 ##TITLE= 139
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 308
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_glucoheptose coumaric vanillic_19052011_9.qgd
@@ -8604,7 +8608,7 @@
 ##TITLE= 140
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 671
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_glucoheptose coumaric vanillic_19052011_9.qgd
@@ -8666,7 +8670,7 @@
 ##TITLE= 141
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 671
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_glucoheptose coumaric vanillic_19052011_9.qgd
@@ -8728,7 +8732,7 @@
 ##TITLE= 142
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 322
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_muramic glucuron glyceric_19052011_10.qgd
@@ -8790,7 +8794,7 @@
 ##TITLE= 143
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 583
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_muramic glucuron glyceric_19052011_10.qgd
@@ -8852,7 +8856,7 @@
 ##TITLE= 144
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 583
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_muramic glucuron glyceric_19052011_10.qgd
@@ -8914,7 +8918,7 @@
 ##TITLE= 145
 ##JCAMP-DX= 4.24 +Shimadzu
 ##MW= 396
-##MOLFORM= 
+##MOLFORM=
 ##CAS REGISTRY NO= 0 - 00 - 0
 ##DATA_TYPE= Mass Spectrum
 ##SAMPLE_DESCRIPTION=C:\GCMSsolution\Data\charlie\metab_ID_CH4_saccharic caffeic EtOHamine_19052011_11.qgd
