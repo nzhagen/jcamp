@@ -2,7 +2,7 @@
 # See the LICENSE.rst file for licensing information.
 
 import datetime
-from numpy import array, append, arange, logical_not, log10, nan, isnan
+from numpy import array, append, arange, logical_not, log10, nan, isnan, linspace
 import re
 import pdb
 
@@ -121,8 +121,6 @@ def jcamp_read(filehandle):
     '''
 
     jcamp_dict = {}
-    xstart = []
-    xnum = []
     y = []
     x = []
     datastart = False
@@ -188,6 +186,12 @@ def jcamp_read(filehandle):
                 y = []
                 datastart = True
                 datatype = rhs
+                # calcuate x-steps from mandatory metadata
+                dx = (
+                    (jcamp_dict["lastx"] - jcamp_dict["firstx"])
+                    / (jcamp_dict["npoints"] - 1)
+                    / jcamp_dict["xfactor"]
+                )
                 continue        ## data starts on next line
             elif (lhs == 'end'):
                 bounds = [int(i) for i in re_num.findall(rhs)]
@@ -213,11 +217,52 @@ def jcamp_read(filehandle):
             ## If the line does not start with '##' or '$$' then it should be a data line.
             ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
             ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
+            
+            ## Check on first data line only if ASDF format is implemented 
+            if not len(y):
+                # check if format is AFFN or ASDF:
+                if any(l in DIF_digits for l in line):
+                    ASDF_format_detected = True
+                else:
+                    ASDF_format_detected = False
             datavals = jcamp_parse(line)
-            xstart.append(float(datavals[0]))
-            xnum.append(len(datavals) - 1)
-            for dataval in datavals[1:]:
-                y.append(float(dataval))
+
+            # X-check: Is the calculated x-value the same as in first value in line?
+            #          Actual implementation checks whether difference is below 1.
+            #          This threshold might require adjustment to higher values if needed (not encountered so far).
+            # line_last will be generated after reading first line, see code below
+            if "line_last" in locals():
+                next_x = line_last[0] + line_last[1] * dx
+                if abs(datavals[0] - next_x) > 1:
+                    print(
+                        f"X-Check failed. Expected value is {datavals[0]} but {next_x} has been calculated."
+                    )
+
+            # Only for ASDF format: Do y-checks (to ensure line integrity) and
+            #                       do y-value aggregation appropriately
+            if ASDF_format_detected:
+                if len(y):
+                    line_last = (datavals[0], len(datavals[2:]))
+                    # Y-check: first y-value is used to check with last y-value to ensure integrity of all DIF 
+                    #          operations done on previous line
+                    if datavals[1] != y[-1]:
+                        print(
+                            f"Y-Check failed. Last value of previous line is {y[-1]} but first value is {datavals[1]}."
+                        )
+                    # aggregate y-values
+                    for dataval in datavals[2:]:
+                        y.append(float(dataval))
+                else:
+                    # aggregate y-values; first line does not contain y-checks
+                    for dataval in datavals[1:]:
+                        y.append(float(dataval))
+                    # define last x and number of y-values for next x-check
+                    line_last = (datavals[0], len(y) - 1)
+            else:
+                line_last = (datavals[0], len(datavals[1:]))
+                for dataval in datavals[1:]:
+                    y.append(float(dataval))
+
         elif datastart and (('xypoints' in jcamp_dict) or ('xydata' in jcamp_dict)) and (datatype == '(XY..XY)'):
             datavals = [v.strip() for v in re.split(r"[,;\s]", line) if v]  ## be careful not to allow empty strings
             if not all(is_float(datavals)): continue
@@ -239,31 +284,26 @@ def jcamp_read(filehandle):
 
     if ('xydata' in jcamp_dict) and (jcamp_dict['xydata'] == '(X++(Y..Y))'):
         ## You got all of the Y-values. Next you need to figure out how to generate the missing X's...
-        ## First look for the "lastx" dictionary entry. You will need that one to finish the set.
-        xstart.append(jcamp_dict['lastx'])
-        x = array([])
-        for n in range(len(xnum)-1):
-            dx = (xstart[n+1] - xstart[n]) / xnum[n]
-            x = append(x, xstart[n]+(dx*arange(xnum[n])))
-            #print(n, xstart[n], xstart[n+1], xnum[n], xstart[n]+(dx*arange(xnum[n])))
-
-        ## The last line must be treated separately.
-        if (xnum[len(xnum)-1] > 1):
-            dx = (jcamp_dict['lastx'] - xstart[len(xnum)-1]) / (xnum[len(xnum)-1] - 1.0)
-            x = append(x, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
-            #print(n, xstart[len(xnum)-1]+(dx*arange(xnum[len(xnum)-1])))
-        else:
-            x = append(x, jcamp_dict['lastx'])
-
+        ## According to JCAMP-DX specifications, the metadata contains actual x-values.
+        ## X-values in the xydata-table are used for x-checks only. The variable "xfactor" is used
+        ##          to compress x-values, so decompression of actual x-values is not needed anymore.
+        x = linspace(jcamp_dict["firstx"], jcamp_dict["lastx"], jcamp_dict["npoints"])
         y = array([float(yval) for yval in y])
     else:
         x = array([float(xval) for xval in x])
         y = array([float(yval) for yval in y])
+        ## The "xfactor" variables contain any scaling information that may need to be applied
+        ## to the data. Go ahead and apply them.
+        if ('xfactor' in jcamp_dict):
+            x = x * jcamp_dict['xfactor']
 
-    ## The "xfactor" and "yfactor" variables contain any scaling information that may need to be applied
+    # check if arrays are the same length
+    if len(x) != len(y):
+        print(f"Mismatch of array lengths found: len(x) is {len(x)} and len(y) {len(y)}.")
+
+    ## The "yfactor" variables contain any scaling information that may need to be applied
     ## to the data. Go ahead and apply them.
-    if ('xfactor' in jcamp_dict):
-        x = x * jcamp_dict['xfactor']
+    
     if ('yfactor' in jcamp_dict):
         y = y * jcamp_dict['yfactor']
     jcamp_dict['x'] = x
