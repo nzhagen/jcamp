@@ -502,7 +502,8 @@ def jcamp_parse(line):
         newline = ''
         for (i,c) in enumerate(line):
             if (c in DUP_digits):
-                # check for last DIF_digit which is start of next y-value
+                # check for last DIF_digit which is start of last y-value by default, 
+                # so that all characters belonging to last value is fully decompressed by DUP compression.
                 back = 1
                 while line[i - back] not in DIF_digits:
                     back += 1
