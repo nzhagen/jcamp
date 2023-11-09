@@ -502,7 +502,11 @@ def jcamp_parse(line):
         newline = ''
         for (i,c) in enumerate(line):
             if (c in DUP_digits):
-                prev_c = line[i-1]
+                # check for last DIF_digit which is start of next y-value
+                back = 1
+                while line[i - back] not in DIF_digits:
+                    back += 1
+                prev_c = line[i - back : i]
                 mul = DUP_digits[c]
                 newline += prev_c * (mul-1)
             else:
