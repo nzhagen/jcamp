@@ -17,7 +17,7 @@ class TestJcamp(unittest.TestCase):
         self.assertIsInstance(testdict['y'], ndarray)
         self.assertEqual(len(testdict['x']), len(testdict['y']))
         if (len(testdict['x']) > 0) and ('minx' in testdict):
-            #self.assertEqual(len(jcamp_dict['x']), jcamp_dict['npoints'])
+            self.assertEqual(len(testdict['x']), testdict['npoints'])
             self.assertAlmostEqualRelative(amin(testdict['x']), testdict['minx'])
             self.assertAlmostEqualRelative(amin(testdict['y']), testdict['miny'])
             self.assertAlmostEqualRelative(amax(testdict['x']), testdict['maxx'])
@@ -139,4 +139,7 @@ class TestJcamp(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    #testobj = TestJcamp()
     unittest.main()
+    #testobj.test_read_mass()
+
