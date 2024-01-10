@@ -190,7 +190,8 @@ def jcamp_read(filehandle):
                 dx = (
                     (jcamp_dict["lastx"] - jcamp_dict["firstx"])
                     / (jcamp_dict["npoints"] - 1)
-                    / jcamp_dict["xfactor"]
+                    # If "xfactor" is not available in jcamp_dict, use 1.0 as default.
+                    / jcamp_dict.get("xfactor",1.0)
                 )
                 continue        ## data starts on next line
             elif (lhs == 'end'):
