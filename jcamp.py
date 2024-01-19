@@ -30,14 +30,14 @@ DIF_digits = {'%': 0, 'J':1,  'K':2,  'L':3,  'M':4,  'N':5,  'O':6,  'P':7,  'Q
               'j':-1, 'k':-2, 'l':-3, 'm':-4, 'n':-5, 'o':-6, 'p':-7, 'q':-8, 'r':-9}
 DUP_digits = {'S':1, 'T':2, 'U':3, 'V':4, 'W':5, 'X':6, 'Y':7, 'Z':8, 's':9}
 
-# The specification allows multiple formats for representing LONGDATE.
-# See `FRACTIONAL_SECONDS_PATTERN` below for the optional token representing fractional seconds.
-# These fractional seconds are removed in advance. Thus `%N` is not referenced in the formats below.
+## The specification allows multiple formats for representing LONGDATE.
+## See `FRACTIONAL_SECONDS_PATTERN` below for the optional token representing fractional seconds.
+## These fractional seconds are removed in advance. Thus `%N` is not referenced in the formats below.
 DATE_FORMATS = ["%Y/%m/%d %H:%M:%S %z", "%Y/%m/%d %H:%M:%S", "%Y/%m/%d"]
 
-# The optional token describing the fractional seconds is referenced in the specification as `.SSSS`.
-# This number of digits (four) is rather unclear, since the usual presentation of a fraction of
-# seconds would contain either 3, 6 or 9 digits.
+## The optional token describing the fractional seconds is referenced in the specification as `.SSSS`.
+## This number of digits (four) is rather unclear, since the usual presentation of a fraction of
+## seconds would contain either 3, 6 or 9 digits.
 FRACTIONAL_SECONDS_PATTERN = re.compile(
     r"^\d{4}/\d{2}/\d{2} +\d{2}:\d{2}\d{2}(?P<fractional_seconds>\d{1,9})"
 )
@@ -71,34 +71,34 @@ def parse_longdate(date_string: str) -> datetime.datetime:
     """
     fractional_seconds_match = FRACTIONAL_SECONDS_PATTERN.search(date_string)
     if fractional_seconds_match:
-        # Remove the fractional seconds string - it would complicate `strptime`.
+        ## Remove the fractional seconds string - it would complicate `strptime`.
         date_string = FRACTIONAL_SECONDS_PATTERN.sub("", date_string)
 
-        # Try to interprete the fractional seconds. The JCAMP specification (v6.00) does not
-        # explain, how a string of arbitrary length is supposed to be interpreted.
-        # Thus we are just guessing based on the number of digits.
+        ## Try to interprete the fractional seconds. The JCAMP specification (v6.00) does not
+        ## explain, how a string of arbitrary length is supposed to be interpreted.
+        ## Thus we are just guessing based on the number of digits.
         fraction_seconds_string = fractional_seconds_match.group("fractional_seconds")
         if len(fraction_seconds_string) in {7, 8, 9}:
-            # this is probably nanoseconds
+            ## This is probably nanoseconds.
             microseconds = int(int(fraction_seconds_string) / 1000)
         elif len(fraction_seconds_string) in {4, 5, 6}:
             microseconds = int(fraction_seconds_string)
         elif len(fraction_seconds_string) in {1, 2, 3}:
             microseconds = 1000 * int(fraction_seconds_string)
         else:
-            # We should never end up here.
+            ## We should never end up here.
             raise ValueError("Fractional seconds string could not be parsed: {}".format(fraction_seconds_string))
     else:
         microseconds = 0
 
-    # Parse the date and time.
+    ## Parse the date and time.
     for fmt in DATE_FORMATS:
         try:
             parsed = datetime.datetime.strptime(date_string, fmt)
         except ValueError:
             pass
         else:
-            # Inject the previously parsed microseconds
+            ## Inject the previously parsed microseconds
             return parsed.replace(microsecond=microseconds)
     else:
         raise ValueError("Failed to parse the date string: {}".format(date_string))
@@ -186,13 +186,10 @@ def jcamp_read(filehandle):
                 y = []
                 datastart = True
                 datatype = rhs
-                # calcuate x-steps from mandatory metadata
-                dx = (
-                    (jcamp_dict["lastx"] - jcamp_dict["firstx"])
-                    / (jcamp_dict["npoints"] - 1)
-                    # If "xfactor" is not available in jcamp_dict, use 1.0 as default.
-                    / jcamp_dict.get("xfactor",1)
-                )
+                ## Calculate x-steps from mandatory metadata. If "xfactor" is not available in
+                ## jcamp_dict, then use 1.0 as default.
+                dx = (jcamp_dict["lastx"] - jcamp_dict["firstx"]) / (jcamp_dict["npoints"] - 1)
+                dx /= jcamp_dict.get("xfactor",1)
                 continue        ## data starts on next line
             elif (lhs == 'end'):
                 bounds = [int(i) for i in re_num.findall(rhs)]
@@ -204,10 +201,10 @@ def jcamp_read(filehandle):
                 try:
                     parsed = parse_longdate(jcamp_dict[lhs])
                 except ValueError:
-                    # Keep the original date string.
+                    ## Keep the original date string.
                     pass
                 else:
-                    # Replace the string with the datetime object.
+                    ## Replace the string with the datetime object.
                     jcamp_dict[lhs] = parsed
             elif datastart:
                 datastart = False
@@ -218,20 +215,20 @@ def jcamp_read(filehandle):
             ## If the line does not start with '##' or '$$' then it should be a data line.
             ## The pair of lines below involve regex splitting on floating point numbers and integers. We can't just
             ## split on spaces because JCAMP allows minus signs to replace spaces in the case of negative numbers.
-            
-            ## Check on first data line only if ASDF format is implemented 
+
+            ## Check the first data line only if ASDF format is implemented.
             if not len(y):
-                # check if format is AFFN or ASDF:
+                ## Check if the format is AFFN or ASDF:
                 if any(l in DIF_digits for l in line):
                     ASDF_format_detected = True
                 else:
                     ASDF_format_detected = False
             datavals = jcamp_parse(line)
 
-            # X-check: Is the calculated x-value the same as in first value in line?
-            #          Actual implementation checks whether difference is below 1.
-            #          This threshold might require adjustment to higher values if needed (not encountered so far).
-            # line_last will be generated after reading first line, see code below
+            ## X-check: Is the calculated x-value the same as in first value in line?
+            ##          Actual implementation checks whether difference is below 1.
+            ##          This threshold might require adjustment to higher values if needed (not encountered so far).
+            ## line_last will be generated after reading first line, see code below.
             if "line_last" in locals():
                 next_x = line_last[0] + line_last[1] * dx
                 if abs(datavals[0] - next_x) > 1:
@@ -239,25 +236,25 @@ def jcamp_read(filehandle):
                         f"X-Check failed. Expected value is {datavals[0]} but {next_x} has been calculated."
                     )
 
-            # Only for ASDF format: Do y-checks (to ensure line integrity) and
-            #                       do y-value aggregation appropriately
+            ## Only for ASDF format: Do y-checks (to ensure line integrity) and
+            ##                       do y-value aggregation appropriately
             if ASDF_format_detected:
                 if len(y):
                     line_last = (datavals[0], len(datavals[2:]))
-                    # Y-check: first y-value is used to check with last y-value to ensure integrity of all DIF 
-                    #          operations done on previous line
+                    ## Y-check: first y-value is used to check with last y-value to ensure integrity of all DIF
+                    ##          operations done on previous line
                     if datavals[1] != y[-1]:
                         print(
                             f"Y-Check failed. Last value of previous line is {y[-1]} but first value is {datavals[1]}."
                         )
-                    # aggregate y-values
+                    ## Aggregate y-values.
                     for dataval in datavals[2:]:
                         y.append(float(dataval))
                 else:
-                    # aggregate y-values; first line does not contain y-checks
+                    ## Aggregate y-values; first line does not contain y-checks.
                     for dataval in datavals[1:]:
                         y.append(float(dataval))
-                    # define last x and number of y-values for next x-check
+                    ## Define last x and number of y-values for next x-check.
                     line_last = (datavals[0], len(y) - 1)
             else:
                 line_last = (datavals[0], len(datavals[1:]))
@@ -298,15 +295,16 @@ def jcamp_read(filehandle):
         if ('xfactor' in jcamp_dict):
             x = x * jcamp_dict['xfactor']
 
-    # check if arrays are the same length
+    ## Check if arrays are the same length.
     if len(x) != len(y):
         print(f"Mismatch of array lengths found: len(x) is {len(x)} and len(y) {len(y)}.")
 
     ## The "yfactor" variables contain any scaling information that may need to be applied
     ## to the data. Go ahead and apply them.
-    
+
     if ('yfactor' in jcamp_dict):
-        y = y * jcamp_dict['yfactor']
+        y *= jcamp_dict['yfactor']
+
     jcamp_dict['x'] = x
     jcamp_dict['y'] = y
 
@@ -505,8 +503,8 @@ def jcamp_parse(line):
         newline = ''
         for (i,c) in enumerate(line):
             if (c in DUP_digits):
-                # check for last DIF_digit which is start of last y-value by default, 
-                # so that all characters belonging to last value is fully decompressed by DUP compression.
+                ## Check for last DIF_digit which is start of last y-value by default, so that all
+                ## characters belonging to last value is fully decompressed by DUP compression.
                 back = 1
                 while line[i-back] not in DIF_digits:
                     back += 1
@@ -601,7 +599,7 @@ def jcamp_write(jcamp_dict, linewidth=75):
 
     js = ''
 
-    # Writes first lines
+    ## Write the first line.
     js += "##JCAMP-DX=5.01\n"
 
     ## First write out the header.
