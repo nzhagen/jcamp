@@ -2,7 +2,7 @@
 # See the LICENSE.rst file for licensing information.
 
 import datetime
-from numpy import array, append, arange, logical_not, log10, nan, isnan, linspace
+from numpy import array, append, arange, logical_not, log10, nan, isnan, linspace, amax, amin
 import re
 import pdb
 
@@ -632,13 +632,12 @@ def jcamp_write(jcamp_dict, linewidth=75):
     if 'miny' not in jcamp_dict:
         js += f"##MINY={amin(jcamp_dict['y']):.4f}\n"
 
-    npts = len(jcamp_dict['x'])
-    if 'npoints' not in jcamp_dict:
-        js += f"##NPOINTS={npts}\n"
-
+    npts = jcamp_dict.get('npts', len(jcamp_dict['x']))
+    js += f"##NPOINTS={npts}\n"
+    js += f"##XFACTOR={jcamp_dict.get('xfactor', 1)}\n"
+    yfactor = jcamp_dict.get('yfactor', 1)
+    js += f"##YFACTOR={yfactor}\n"
     js += "##XYDATA=(X++(Y..Y))\n"
-    js += f"##XFACTOR{jcamp_dict.get('xfactor', 1)}\n"
-    js += f"##YFACTOR{jcamp_dict.get('yfactor', 1)}\n"
 
     line = f"{jcamp_dict['x'][0]:.6f} "
     for j in arange(npts):
