@@ -186,9 +186,13 @@ def jcamp_read(filehandle):
                 y = []
                 datastart = True
                 datatype = rhs
+
                 ## Calculate x-steps from mandatory metadata. If "xfactor" is not available in
                 ## jcamp_dict, then use 1.0 as default.
-                dx = (jcamp_dict["lastx"] - jcamp_dict["firstx"]) / (jcamp_dict["npoints"] - 1)
+                if ('lastx' in jcamp_dict) and ('firstx' in jcamp_dict) and ('npoints' in jcamp_dict):
+                    dx = (jcamp_dict["lastx"] - jcamp_dict["firstx"]) / (jcamp_dict["npoints"] - 1)
+                else:
+                    dx = 1.0
                 dx /= jcamp_dict.get("xfactor",1)
                 continue        ## data starts on next line
             elif (lhs == 'end'):
@@ -231,10 +235,8 @@ def jcamp_read(filehandle):
             ## line_last will be generated after reading first line, see code below.
             if "line_last" in locals():
                 next_x = line_last[0] + line_last[1] * dx
-                if abs(datavals[0] - next_x) > 1:
-                    print(
-                        f"X-Check failed. Expected value is {datavals[0]} but {next_x} has been calculated."
-                    )
+                if (abs(datavals[0] - next_x) > 1):
+                    print(f"X-Check failed. Expected value is {datavals[0]} but {next_x} has been calculated.")
 
             ## Only for ASDF format: Do y-checks (to ensure line integrity) and
             ##                       do y-value aggregation appropriately
@@ -243,10 +245,8 @@ def jcamp_read(filehandle):
                     line_last = (datavals[0], len(datavals[2:]))
                     ## Y-check: first y-value is used to check with last y-value to ensure integrity of all DIF
                     ##          operations done on previous line
-                    if datavals[1] != y[-1]:
-                        print(
-                            f"Y-Check failed. Last value of previous line is {y[-1]} but first value is {datavals[1]}."
-                        )
+                    if (datavals[1] != y[-1]):
+                        print(f"Y-Check failed. Last value of previous line is {y[-1]} but first value is {datavals[1]}.")
                     ## Aggregate y-values.
                     for dataval in datavals[2:]:
                         y.append(float(dataval))
