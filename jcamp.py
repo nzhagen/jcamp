@@ -637,10 +637,8 @@ def jcamp_write(jcamp_dict, linewidth=75):
         js += f"##NPOINTS={npts}\n"
 
     js += "##XYDATA=(X++(Y..Y))\n"
-
-    yfactor = 1.0
-    if 'yfactor' in jcamp_dict:
-        yfactor = jcamp_dict['yfactor']
+    js += f"##XFACTOR{jcamp_dict.get('xfactor', 1)}\n"
+    js += f"##YFACTOR{jcamp_dict.get('yfactor', 1)}\n"
 
     line = f"{jcamp_dict['x'][0]:.6f} "
     for j in arange(npts):
