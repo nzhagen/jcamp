@@ -11,8 +11,11 @@ class TestJcamp(unittest.TestCase):
             raise Exception("%s is not close enough to %s" % (val1, val2))
         return(True)
 
-    def test_xy_minmax(self, testdict):
-        ## Note that 'mass' files seem to be more complex, and current parsing fails on some assumptions.
+    def test_xy_minmax(self, testdict={}):
+        if not testdict:
+            return
+
+        ## Note that mass spectra JDX files seem to be more complex, and current parsing fails on some assumptions.
         self.assertIsInstance(testdict['x'], ndarray)
         self.assertIsInstance(testdict['y'], ndarray)
         self.assertEqual(len(testdict['x']), len(testdict['y']))
@@ -34,6 +37,7 @@ class TestJcamp(unittest.TestCase):
         for root, dirs, files in os.walk("./data/infrared_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
+                print(full_filename)
                 jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
@@ -41,6 +45,7 @@ class TestJcamp(unittest.TestCase):
         for root, dirs, files in os.walk("./data/raman_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
+                print(full_filename)
                 jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
@@ -48,6 +53,7 @@ class TestJcamp(unittest.TestCase):
         for root, dirs, files in os.walk("./data/hnmr_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
+                print(full_filename)
                 jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
@@ -55,6 +61,7 @@ class TestJcamp(unittest.TestCase):
         for root, dirs, files in os.walk("./data/uvvus_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
+                print(full_filename)
                 jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
@@ -62,6 +69,7 @@ class TestJcamp(unittest.TestCase):
         for root, dirs, files in os.walk("./data/mass_spectra"):
             for filename in files:
                 full_filename = os.path.join(root, filename)
+                print(full_filename)
                 jcamp_dict = jcamp_readfile(full_filename)
                 self.test_xy_minmax(jcamp_dict)
 
