@@ -171,6 +171,9 @@ def jcamp_read(filehandle):
                 jcamp_dict[lhs] = int(rhs)
             elif is_float(rhs):
                 jcamp_dict[lhs] = float(rhs)
+            # processes numbers whose decimal separator is a comma and not a dot.
+            elif is_float(rhs.replace(",", ".", 1)):
+                jcamp_dict[lhs] = float(rhs.replace(",", ".", 1))
             else:
                 jcamp_dict[lhs] = rhs
 
