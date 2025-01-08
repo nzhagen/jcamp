@@ -1,0 +1,30 @@
+JCAMP-DX Testfiles
+(C) COPYRIGHT ISAS Dortmund 1992, 1994, 1995
+Author Dr. Peter Lampen
+
+1st IR spectra:
+BRUKER1  JCM     7.140 07.10.92  Bruker IFS 118,    Transmission, DIFDUP
+BRUKER2  JCM     5.676 07.10.92  Bruker IFS 118,    Absorbance,   DIFDUP
+PE1800   DX     21.496 07.10.92  Perkin Elmer 1800, Transmission, PAC
+SPECFILE DX      6.462 07.10.92  Spectrafile-IR,    Transmission, DIFDUP
+LABCALC  DX     40.885 07.10.92  Lab Calc,          Transmission, AFFN
+
+2nd NMR spectra and FIDs
+README   NMR     1.644 18.01.95  NMR Read me file
+TESTSPEC DX     50.280 28.07.92  ISAS-NMR, real spectrum, 16 bit
+TEST32   DX    143.475 28.07.92  ISAS-NMR, real spectrum, 32 bit
+TESTNTUP DX    102.298 28.07.92  ISAS-NMR, complex spectrum, Ntuples form
+TESTFID  DX    158.393 28.07.92  ISAS-NMR, FID,              Ntuples form
+BRUKDIF  DX    148.800 03.08.92  Bruker,   real spectrum,    DIFDUP form
+BRUKSQZ  DX    131.248 03.08.92  Bruker,   real spectrum,    SQZ form
+BRUKPAC  DX    149.212 04.08.92  Bruker,   real spectrum,    PAC form
+BRUKAFFN DX    308.132 03.08.92  Bruker,   real spectrum,    AFFN form
+BRUKNTUP DX    293.649 03.08.92  Bruker,   complex spectrum, Ntuples form
+PEAK     TXT     3.523 09.07.92  ISAS-NMR, compound JCAMP-DX file, description
+ISAS_CDX DX      2.800 18.01.95  ISAS-NMR, compound JCAMP-DX file, example
+
+3rd MS spectra (Examples of our JCAMP-DX for MS article)
+ISAS_MS1 DX        947 01.07.94  ISAS-MS, single spectrum (example 1)
+ISAS_MS2 DX      1.575 01.07.94  ISAS-MS, raw data        (example 2)
+ISAS_MS3 DX      1.603 01.07.94  ISAS-MS, spectral series (example 3)
+22 files     1.579.238 Byte
