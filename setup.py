@@ -11,7 +11,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name="jcamp",
     py_modules=["jcamp"],
-    version="1.2.2",
+    version="1.3.0",
     description="JCAMP-DX file reader",
     long_description = long_description,         ## from above
     author="Nathan Hagen",
