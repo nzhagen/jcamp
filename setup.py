@@ -18,10 +18,6 @@ setup(
     author_email="and.the.light.shattered@gmail.com",
     url="https://github.com/nzhagen/jcamp",
     download_url="https://github.com/nzhagen/jcamp",
-    install_requires=['numpy','datetime'],
-    test_suite='tests',
-    tests_require=['tox', 'coverage'],
-    keywords=["jcamp", "jcamp-dx", "spectra"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Development Status :: 4 - Beta",
