@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    continue-on-error: ${{ matrix.allow_failure }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - TOX_ENV: py27-flake8
+            allow_failure: false
+          - TOX_ENV: py34-flake8
+            allow_failure: true
+          - TOX_ENV: py27
+            allow_failure: false
+          - TOX_ENV: py34
+            allow_failure: true
+    env:
+      TOX_ENV: ${{ matrix.TOX_ENV }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - run: pip install tox coveralls
+      - run: tox -e $TOX_ENV
+      - run: coveralls
