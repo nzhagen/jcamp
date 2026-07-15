@@ -4,7 +4,7 @@
 import datetime
 from numpy import array, append, arange, logical_not, log10, nan, isnan, linspace, amax, amin, isclose
 import re
-import pdb
+#import pdb
 
 '''
 jcamp.py contains functions useful for parsing JCAMP-DX formatted files containing spectral data. The main
